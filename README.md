@@ -2,6 +2,8 @@
 
 A lightweight self-hosted service for obtaining Ethereum Sepolia ETH.
 
+https://getsepolia.2bd.net/
+
 ## Features
 
 -   Free Sepolia faucet
@@ -38,7 +40,10 @@ pip install -r requirements.txt
 ```
 
 Create a `.env` from `.env.example`.
+``` bash
 cp .env.example .env
+```
+
 Edit the required variables:
 
 ``` bash
