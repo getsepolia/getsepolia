@@ -162,21 +162,45 @@ class RpcPool:
         raise RuntimeError("All Sepolia RPCs rejected the raw transaction: " + "; ".join(errors))
 
 
-def ensure_payout_columns() -> None:
-    desired = {
-        "payout_raw_tx": "TEXT",
-        "payout_nonce": "INTEGER",
-        "payout_started_at": "TEXT",
-        "payout_broadcast_at": "TEXT",
-        "payout_confirmed_at": "TEXT",
-        "payout_attempts": "INTEGER NOT NULL DEFAULT 0",
-        "payout_last_error": "TEXT",
-    }
-    with transaction() as connection:
-        existing = {row["name"] for row in connection.execute("PRAGMA table_info(orders)").fetchall()}
-        for name, definition in desired.items():
-            if name not in existing:
-                connection.execute(f"ALTER TABLE orders ADD COLUMN {name} {definition}")
+def broadcast(self, raw_transaction: bytes) -> str:
+    errors: list[str] = []
+
+    expected_hash = Web3.to_hex(
+        Web3.keccak(raw_transaction)
+    )
+
+    for index, w3 in enumerate(self.providers, start=1):
+        try:
+            if not w3.is_connected():
+                raise RuntimeError("connection failed")
+
+            if w3.eth.chain_id != SEPOLIA_CHAIN_ID:
+                raise RuntimeError(
+                    f"wrong chain ID {w3.eth.chain_id}"
+                )
+
+            return Web3.to_hex(
+                w3.eth.send_raw_transaction(raw_transaction)
+            )
+
+        except Exception as exc:
+            message = str(exc).lower()
+
+            if (
+                "already known" in message
+                or "known transaction" in message
+                or "already imported" in message
+            ):
+                return expected_hash
+
+            errors.append(
+                f"RPC #{index}: {exc}"
+            )
+
+    raise RuntimeError(
+        "All Sepolia RPCs rejected the raw transaction: "
+        + "; ".join(errors)
+    )
 
 
 def fetch_unresolved_payout() -> sqlite3.Row | None:
@@ -341,8 +365,10 @@ def reconcile_payout(order: sqlite3.Row, settings: WorkerSettings, rpc: RpcPool)
     receipt = rpc.call("get payout receipt", get_receipt)
     if receipt is None:
         broadcast_hash = rpc.broadcast(bytes(HexBytes(raw_tx_hex)))
-        if broadcast_hash.lower() != tx_hash.lower():
-            raise RuntimeError("Broadcast transaction hash does not match stored hash.")
+        if Web3.to_hex(HexBytes(broadcast_hash)).lower() != Web3.to_hex(HexBytes(tx_hash)).lower():
+            raise RuntimeError(
+                "Broadcast transaction hash does not match stored hash."
+            )
         mark_broadcast(order["id"])
         if order["payout_started_at"]:
             started = datetime.fromisoformat(order["payout_started_at"])
@@ -652,7 +678,7 @@ def reconcile_faucet_payout(
 
     if receipt is None:
         broadcast_hash = rpc.broadcast(bytes(HexBytes(raw_tx_hex)))
-        if broadcast_hash.lower() != tx_hash.lower():
+        if Web3.to_hex(HexBytes(broadcast_hash)).lower() != Web3.to_hex(HexBytes(tx_hash)).lower():
             raise RuntimeError(
                 "Broadcast transaction hash does not match stored hash."
             )
@@ -843,7 +869,6 @@ def main() -> int:
         settings = load_settings()
         configure_logging(settings.log_level)
         initialize_database()
-        ensure_payout_columns()
         rpc = RpcPool(settings.rpc_urls)
     except Exception as exc:
         print(f"Payout worker startup failed: {exc}", file=sys.stderr)
