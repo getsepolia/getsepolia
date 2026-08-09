@@ -1,8 +1,13 @@
 # Get Sepolia ETH
+[![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 
 A lightweight self-hosted service for obtaining Ethereum Sepolia ETH.
 
 https://getsepolia.2bd.net/
+
+This repository contains the software powering the GetSepolia service.
+No warranty is provided regarding availability of the public service,
+faucet funding, RPC endpoints or blockchain infrastructure.
 
 ## Features
 
