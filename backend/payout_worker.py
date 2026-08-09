@@ -313,7 +313,12 @@ def build_and_store_payout(order: sqlite3.Row, settings: WorkerSettings, rpc: Rp
     tx = rpc.call("build payout", build)
     signed = account.sign_transaction(tx)
     raw = bytes(signed.raw_transaction)
-    store_signed_transaction(order["id"], signed.hash.hex(), HexBytes(raw).hex(), tx["nonce"])
+    store_signed_transaction(
+        order["id"],
+        Web3.to_hex(signed.hash),
+        Web3.to_hex(raw),
+        tx["nonce"],
+    )
     with transaction() as connection:
         stored = connection.execute("SELECT * FROM orders WHERE id=?", (order["id"],)).fetchone()
     if stored is None:
@@ -605,8 +610,8 @@ def build_and_store_faucet_payout(
 
     store_faucet_signed_transaction(
         claim["id"],
-        signed.hash.hex(),
-        HexBytes(raw).hex(),
+        Web3.to_hex(signed.hash),
+        Web3.to_hex(raw),
         tx["nonce"],
     )
 
