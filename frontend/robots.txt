@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://getsepolia.2bd.net/sitemap.xml

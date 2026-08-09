@@ -1,0 +1,64 @@
+# Python
+__pycache__/
+*.py[cod]
+*.so
+*.pyc
+
+# Virtual environments
+.venv/
+venv/
+env/
+
+# IDEs
+.idea/
+.vscode/
+
+# macOS / Windows
+.DS_Store
+Thumbs.db
+
+# Environment
+.env
+.env.*
+!.env.example
+
+# SQLite
+*.db
+*.sqlite
+*.sqlite3
+
+# Logs
+*.log
+
+# Testing
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Type checker / lint
+.mypy_cache/
+.ruff_cache/
+
+# Python packaging
+*.egg-info/
+.eggs/
+
+# Node
+node_modules/
+
+# Build
+build/
+dist/
+
+# Temporary
+.cache/
+*.tmp
+*.bak
+*.swp
+
+# Local helper scripts
+scripts/
+
+# Local deployment helpers used for testing (deprecated)
+sync-with-server.sh
+deploy.exclude

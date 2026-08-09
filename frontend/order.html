@@ -1,0 +1,913 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="description" content="Track and pay your Sepolia Market order." />
+<title>Order status — Sepolia Market</title>
+<style>
+:root{--bg:#f4f6f8;--surface:#fff;--soft:#f8f9fb;--ink:#151923;--muted:#687180;--line:#e0e5eb;--accent:#5a5bd4;--accent2:#4445b4;--accentSoft:#eeeeff;--ok:#16835d;--okSoft:#e9f7f1;--warn:#b7791f;--warnSoft:#fff7e6;--danger:#b23e46;--dangerSoft:#fff0f1;--shadow:0 18px 55px rgba(25,32,47,.08);--r1:24px;--r2:15px}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;color:var(--ink);background:radial-gradient(circle at 85% 0,rgba(90,91,212,.11),transparent 30%),var(--bg);font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;-webkit-font-smoothing:antialiased}button,input{font:inherit}a{color:inherit;text-decoration:none}.shell{width:min(980px,calc(100% - 40px));margin:auto}.header{height:82px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid rgba(224,229,235,.9)}.brand{display:flex;align-items:center;gap:12px}.mark{width:40px;height:40px;display:grid;place-items:center;border-radius:12px;background:var(--ink);color:#fff;font-weight:800}.brand b,.brand small{display:block}.brand small{margin-top:2px;color:var(--muted);font-size:.72rem}.back{color:var(--muted);font-size:.88rem;font-weight:650}.main{padding:72px 0 90px}.eyebrow{color:var(--accent);font-size:.74rem;font-weight:800;letter-spacing:.09em;text-transform:uppercase}.title-row{display:flex;justify-content:space-between;gap:24px;align-items:end;margin:14px 0 32px}.title-row h1{margin:0;font-size:clamp(2.4rem,5vw,4.5rem);letter-spacing:-.05em}.refresh{color:var(--muted);font-size:.78rem}.card{border:1px solid var(--line);border-radius:var(--r1);background:var(--surface);box-shadow:var(--shadow)}.status-card{padding:30px}.status-head{display:flex;justify-content:space-between;gap:24px;align-items:flex-start}.status-badge{display:inline-flex;align-items:center;gap:10px;padding:10px 13px;border-radius:999px;background:var(--accentSoft);color:var(--accent);font-weight:800}.status-dot{width:9px;height:9px;border-radius:50%;background:currentColor}.order-id{color:var(--muted);font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:.82rem;overflow-wrap:anywhere;text-align:right}.message{margin:22px 0 0;color:var(--muted);line-height:1.65}.grid{display:grid;grid-template-columns:1fr 1fr;gap:22px;margin-top:22px}.details,.timeline-card,.payment-card{padding:28px}.details dl{margin:0}.details dl div{display:flex;justify-content:space-between;gap:24px;padding:15px 0;border-bottom:1px solid var(--line)}.details dl div:last-child{border-bottom:0}.details dt{color:var(--muted)}.details dd{margin:0;text-align:right;font-weight:750;overflow-wrap:anywhere}.timeline{display:grid;gap:0;margin-top:6px}.timeline-item{position:relative;display:grid;grid-template-columns:32px 1fr;gap:12px;min-height:70px}.timeline-item:not(:last-child):before{content:"";position:absolute;left:15px;top:31px;bottom:0;width:2px;background:var(--line)}.timeline-marker{width:32px;height:32px;display:grid;place-items:center;border-radius:50%;border:2px solid var(--line);background:#fff;color:var(--muted);font-size:.78rem;font-weight:800}.timeline-item.done .timeline-marker{border-color:var(--ok);background:var(--okSoft);color:var(--ok)}.timeline-item.active .timeline-marker{border-color:var(--accent);background:var(--accentSoft);color:var(--accent)}.timeline-item.done:not(:last-child):before{background:var(--ok)}.timeline-item h3{margin:3px 0 5px;font-size:.96rem}.timeline-item p{margin:0;color:var(--muted);font-size:.8rem;line-height:1.5}.terminal{margin-top:22px;padding:18px;border-radius:var(--r2);font-weight:700}.terminal.manual_review{color:var(--warn);background:var(--warnSoft)}.terminal.failed{color:var(--danger);background:var(--dangerSoft)}.terminal.expired{color:var(--muted);background:var(--soft)}.terminal[hidden]{display:none}.payment-card{margin-top:22px}.payment-head{display:flex;justify-content:space-between;gap:18px;align-items:start}.payment-head h2{margin:0 0 7px}.payment-head p{margin:0;color:var(--muted);line-height:1.55}.network-chip{padding:7px 10px;border-radius:9px;background:var(--soft);color:var(--muted);font-size:.72rem;font-weight:750;white-space:nowrap}.payment-summary{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:22px 0}.payment-summary div{padding:14px;border-radius:12px;background:var(--soft);min-width:0}.payment-summary span,.payment-summary b{display:block}.payment-summary span{color:var(--muted);font-size:.72rem}.payment-summary b{margin-top:5px;font-size:.84rem;overflow-wrap:anywhere}.actions{display:flex;gap:12px;flex-wrap:wrap}.btn{min-height:46px;display:inline-flex;align-items:center;justify-content:center;padding:0 18px;border:1px solid transparent;border-radius:12px;cursor:pointer;font-weight:750;transition:.15s}.btn:hover{transform:translateY(-1px)}.btn:disabled{cursor:not-allowed;opacity:.58;transform:none}.primary{background:var(--accent);color:#fff;box-shadow:0 8px 22px rgba(90,91,212,.22)}.primary:hover{background:var(--accent2)}.secondary{background:#fff;border-color:var(--line);color:var(--ink)}.wide{width:100%}.manual-box{margin-top:18px;padding-top:18px;border-top:1px solid var(--line)}.manual-box summary{cursor:pointer;color:var(--muted);font-weight:700}.manual-form{margin-top:14px}.field-label{display:block;margin-bottom:8px;font-size:.8rem;font-weight:750}.tx-input{width:100%;min-height:48px;padding:0 13px;border:1px solid var(--line);border-radius:11px;outline:none;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:.8rem}.tx-input:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(90,91,212,.08)}.manual-address-row{display:flex;gap:8px;align-items:stretch;margin-bottom:16px}.manual-address-row .tx-input{min-width:0;flex:1}.copy-btn{flex:0 0 auto;min-width:78px}.wallet-warning{margin:14px 0 0;padding:12px 14px;border-radius:10px;background:var(--warnSoft);color:#8a6118;font-size:.76rem;line-height:1.55}.wallet-warning strong{color:var(--warn)}.manual-actions{display:flex;gap:10px;margin-top:10px}.payment-note{margin:12px 0 0;color:var(--muted);font-size:.76rem;line-height:1.55}.payment-feedback{margin-top:14px;padding:12px;border-radius:10px;font-size:.8rem;line-height:1.5}.payment-feedback.info{color:var(--accent);background:var(--accentSoft)}.payment-feedback.success{color:var(--ok);background:var(--okSoft)}.payment-feedback.error{color:var(--danger);background:var(--dangerSoft)}.payment-feedback[hidden]{display:none}.wallet-modal-bg{position:fixed;inset:0;z-index:50;display:grid;place-items:center;padding:20px;background:rgba(17,21,29,.52);backdrop-filter:blur(6px)}.wallet-modal{position:relative;width:min(100%,455px);padding:30px;border-radius:22px;background:#fff;box-shadow:0 28px 80px rgba(17,21,29,.24)}.wallet-modal h2{margin:0 0 8px}.wallet-modal p{margin:0;color:var(--muted);line-height:1.6}.wallet-close{position:absolute;top:14px;right:14px;width:34px;height:34px;border:0;border-radius:9px;background:var(--soft);color:var(--muted);cursor:pointer;font-size:1.2rem}.wallet-list{display:grid;gap:10px;margin-top:22px;max-height:320px;overflow:auto}.wallet-option{width:100%;display:flex;align-items:center;gap:13px;padding:12px 14px;border:1px solid var(--line);border-radius:14px;background:#fff;cursor:pointer;text-align:left}.wallet-option:hover{border-color:var(--accent)}.wallet-logo{width:40px;height:40px;display:grid;place-items:center;flex:0 0 40px;border-radius:11px;background:var(--ink);color:#fff;font-weight:800;overflow:hidden}.wallet-logo img{display:block;width:100%;height:100%;object-fit:cover}.wallet-option b,.wallet-option small{display:block}.wallet-option small{margin-top:3px;color:var(--muted)}.wallet-arrow{margin-left:auto;color:var(--muted)}.wallet-empty{margin-top:18px;padding:14px;border:1px dashed var(--line);border-radius:12px;background:var(--soft);color:var(--muted);font-size:.82rem;line-height:1.55}.support-card{margin-top:22px;padding:28px}.support-card h2{margin:8px 0 10px}.support-card p{margin:0 0 18px;color:var(--muted);line-height:1.6}.support-link{display:inline-flex}.error-card{padding:28px;color:var(--danger);background:var(--dangerSoft)}.error-card h2{margin-top:0}.error-card p{margin-bottom:0;line-height:1.6}.loading{padding:44px;text-align:center;color:var(--muted)}.spinner{width:34px;height:34px;margin:0 auto 14px;border:3px solid var(--line);border-top-color:var(--accent);border-radius:50%;animation:spin .8s linear infinite}@keyframes spin{to{transform:rotate(360deg)}}footer{padding:34px 0 44px;border-top:1px solid var(--line);color:var(--muted);font-size:.77rem;text-align:center}[hidden]{display:none!important}body.modal-open{overflow:hidden}
+@media(max-width:720px){.shell{width:min(100% - 24px,980px)}.header{height:70px}.brand small{display:none}.main{padding:50px 0 70px}.title-row{display:block}.refresh{margin-top:12px}.status-head,.payment-head{display:block}.order-id{margin-top:14px;text-align:left}.grid{grid-template-columns:1fr}.details,.timeline-card,.status-card,.payment-card{padding:22px}.details dl div{display:block}.details dd{margin-top:5px;text-align:left}.timeline-item{grid-template-columns:30px 1fr}.payment-summary{grid-template-columns:1fr}.actions,.manual-actions{display:grid}.manual-address-row{display:grid}.copy-btn{width:100%}.btn{width:100%}}
+</style>
+</head>
+<body>
+<div class="shell">
+<header class="header">
+<a class="brand" href="/"><span class="mark">S</span><span><b>Sepolia Market</b><small>Testnet infrastructure</small></span></a>
+<a class="back" href="/">← Back to checkout</a>
+</header>
+
+<main class="main">
+<div class="eyebrow">Order tracking</div>
+<div class="title-row">
+<h1>Your order</h1>
+<div id="refreshText" class="refresh">Refreshing every 3 seconds</div>
+</div>
+
+<div id="loadingCard" class="card loading">
+<div class="spinner"></div>
+Loading order…
+</div>
+
+<div id="errorCard" class="card error-card" hidden>
+<h2>Unable to load order</h2>
+<p id="errorText"></p>
+</div>
+
+<div id="orderContent" hidden>
+<section class="card status-card">
+<div class="status-head">
+<div>
+<div id="statusBadge" class="status-badge"><span class="status-dot"></span><span id="statusLabel">Created</span></div>
+<p id="statusMessage" class="message"></p>
+</div>
+<div class="order-id"><div id="orderId"></div><div style="margin-top:8px"><a id="orderHelpLink" class="back" href="mailto:getsepolia@protonmail.de">Need help?</a></div></div>
+</div>
+<div id="terminalState" class="terminal" hidden></div>
+</section>
+
+<section id="paymentCard" class="card payment-card" hidden>
+<div class="payment-head">
+<div>
+<h2>Pay with USDC</h2>
+<p>Connect an EVM wallet for one-click payment, or send the payment manually without connecting a wallet to this website.</p>
+</div>
+<span class="network-chip">Arbitrum One</span>
+</div>
+
+<div class="payment-summary">
+<div><span>Amount</span><b><span id="paymentAmount">—</span> USDC</b></div>
+<div><span>Payment wallet</span><b id="paymentWalletFull">Not assigned yet</b></div>
+<div><span>Treasury</span><b id="treasuryAddress">Loading…</b></div>
+</div>
+
+<div class="actions">
+<button id="walletPayButton" class="btn primary" type="button">Connect wallet</button>
+</div>
+
+<div class="wallet-warning">
+<strong>Wallet security notice:</strong>
+Some wallet extensions may show an automated phishing or malicious-site warning for new or recently registered domains.
+Such warnings are heuristic and can produce false positives. Sepolia Market will never ask for a seed phrase, private key or wallet password.
+Before continuing, verify that you are on the expected Sepolia Market domain and that the wallet transaction shows the exact USDC amount, the Arbitrum One network and the expected USDC contract.
+If your wallet offers a way to continue after reviewing its warning, that decision remains under your control.
+</div>
+
+<details class="manual-box">
+<summary>Prefer to send manually?</summary>
+<div class="manual-form">
+
+<label class="field-label" for="manualTreasuryAddress">
+USDC recipient address on Arbitrum One
+</label>
+<div class="manual-address-row">
+<input
+  id="manualTreasuryAddress"
+  class="tx-input"
+  type="text"
+  readonly
+  value=""
+  aria-label="USDC treasury address on Arbitrum One"
+/>
+<button id="copyTreasuryButton" class="btn secondary copy-btn" type="button">
+Copy
+</button>
+</div>
+
+<label class="field-label" for="manualTxHash">Arbitrum transaction hash</label>
+<input id="manualTxHash" class="tx-input" type="text" autocomplete="off" spellcheck="false" placeholder="0x…" />
+
+<div class="manual-actions">
+<button id="submitManualTx" class="btn secondary" type="button">Verify transaction</button>
+</div>
+
+<p class="payment-note">
+Send exactly
+<strong><span id="manualPaymentAmount">—</span> USDC</strong>
+using <strong>native USDC on Arbitrum One</strong>
+to the full recipient address shown above.
+No wallet connection to this website is required for manual payment.
+After the transfer is broadcast, paste the Arbitrum transaction hash here.
+The sending wallet will be identified from the verified on-chain USDC transfer.
+Do not send bridged USDC.e or assets on another network.
+</p>
+</div>
+</details>
+
+<div id="paymentFeedback" class="payment-feedback" hidden></div>
+</section>
+
+<div class="grid">
+<section class="card details">
+<h2>Order details</h2>
+<dl>
+<div><dt>You receive</dt><dd><span id="amount">—</span> Sepolia ETH</dd></div>
+<div><dt>Price</dt><dd><span id="price">—</span> USDC</dd></div>
+<div><dt>Recipient</dt><dd id="recipient">—</dd></div>
+<div><dt>Payment wallet</dt><dd id="paymentWallet">Not assigned yet</dd></div>
+<div><dt>Created</dt><dd id="createdAt">—</dd></div>
+<div><dt>Expires</dt><dd id="expiresAt">—</dd></div>
+</dl>
+</section>
+
+<section class="card timeline-card">
+<h2>Progress</h2>
+<div class="timeline">
+<div class="timeline-item" data-step="created"><div class="timeline-marker">1</div><div><h3>Order created</h3><p>The order was stored and reserved.</p></div></div>
+<div class="timeline-item" data-step="payment_submitted"><div class="timeline-marker">2</div><div><h3>Payment submitted</h3><p>The Arbitrum USDC transaction was submitted.</p></div></div>
+<div class="timeline-item" data-step="payment_confirmed"><div class="timeline-marker">3</div><div><h3>Payment confirmed</h3><p>The payment was verified on-chain.</p></div></div>
+<div class="timeline-item" data-step="payout_pending"><div class="timeline-marker">4</div><div><h3>Payout pending</h3><p>The Sepolia ETH payout is being prepared.</p></div></div>
+<div class="timeline-item" data-step="delivered"><div class="timeline-marker">5</div><div><h3>Delivered</h3><p>The Sepolia ETH transfer was confirmed.</p></div></div>
+</div>
+</section>
+</div>
+
+<section class="card support-card">
+  <span class="eyebrow">Support</span>
+  <h2>Need help?</h2>
+  <p>If there is a problem with your payment, order status or Sepolia delivery, contact us and include the order ID shown above.</p>
+  <a id="supportEmailButton" class="btn secondary support-link" href="mailto:getsepolia@protonmail.de">Contact support</a>
+</section>
+</div>
+</main>
+
+<footer>Sepolia ETH is intended solely for development and testing.</footer>
+</div>
+
+<div id="walletModalBg" class="wallet-modal-bg" hidden>
+  <div class="wallet-modal">
+    <button id="walletClose" class="wallet-close" type="button">×</button>
+    <h2>Choose wallet</h2>
+    <p id="walletModalText">Select the EVM browser wallet you want to use for the Arbitrum USDC payment.</p>
+    <div id="walletList" class="wallet-list"></div>
+    <div id="walletEmpty" class="wallet-empty" hidden>No compatible EVM browser wallet was detected.</div>
+  </div>
+</div>
+
+<script>
+const STATUS_META={
+  created:{label:"Created",message:"Your order has been created and is waiting for payment.",color:"#5a5bd4",background:"#eeeeff"},
+  payment_submitted:{label:"Payment submitted",message:"The payment transaction has been submitted and is awaiting verification.",color:"#3567d6",background:"#edf3ff"},
+  payment_confirmed:{label:"Payment confirmed",message:"Your USDC payment has been confirmed.",color:"#1673a5",background:"#eaf7fc"},
+  payout_pending:{label:"Payout pending",message:"Your Sepolia ETH payout is being prepared.",color:"#7a4bc2",background:"#f3edff"},
+  delivered:{label:"Delivered",message:"Your Sepolia ETH has been delivered successfully.",color:"#16835d",background:"#e9f7f1"},
+  manual_review:{label:"Manual review",message:"This order requires manual review.",color:"#b7791f",background:"#fff7e6"},
+  failed:{label:"Failed",message:"The order could not be completed.",color:"#b23e46",background:"#fff0f1"},
+  expired:{label:"Expired",message:"This unpaid order has expired.",color:"#687180",background:"#f8f9fb"}
+};
+
+const ORDERED_STEPS=["created","payment_submitted","payment_confirmed","payout_pending","delivered"];
+const TERMINAL_STATUSES=new Set(["delivered","manual_review","failed","expired"]);
+const ARBITRUM_CHAIN_ID_HEX="0xa4b1";
+const ARBITRUM_PARAMS={
+  chainId:ARBITRUM_CHAIN_ID_HEX,
+  chainName:"Arbitrum One",
+  nativeCurrency:{name:"Ether",symbol:"ETH",decimals:18},
+  rpcUrls:["https://arb1.arbitrum.io/rpc"],
+  blockExplorerUrls:["https://arbiscan.io"]
+};
+const EIP6963_DISCOVERY_WAIT_MS=250;
+
+const params=new URLSearchParams(window.location.search);
+const orderId=params.get("id");
+
+const $=id=>document.getElementById(id);
+const loadingCard=$("loadingCard");
+const errorCard=$("errorCard");
+const errorText=$("errorText");
+const orderContent=$("orderContent");
+const refreshText=$("refreshText");
+const statusBadge=$("statusBadge");
+const statusLabel=$("statusLabel");
+const statusMessage=$("statusMessage");
+const terminalState=$("terminalState");
+const paymentCard=$("paymentCard");
+const paymentFeedback=$("paymentFeedback");
+const walletPayButton=$("walletPayButton");
+const submitManualTx=$("submitManualTx");
+const manualTxHash=$("manualTxHash");
+const manualTreasuryAddress=$("manualTreasuryAddress");
+const manualPaymentAmount=$("manualPaymentAmount");
+const copyTreasuryButton=$("copyTreasuryButton");
+const walletModalBg=$("walletModalBg");
+const walletModalText=$("walletModalText");
+const walletList=$("walletList");
+const walletEmpty=$("walletEmpty");
+const orderHelpLink=$("orderHelpLink");
+const supportEmailButton=$("supportEmailButton");
+
+let pollTimer=null;
+let requestInFlight=false;
+let paymentRequestInFlight=false;
+let paymentConfig=null;
+let currentOrder=null;
+let lastAutoVerificationAt=0;
+
+let selectedProvider=null;
+let selectedWalletInfo=null;
+let selectedAccount=null;
+
+const discoveredWallets=new Map();
+
+function shortAddress(address){
+  if(!address||address.length<14)return address||"—";
+  return `${address.slice(0,8)}…${address.slice(-6)}`;
+}
+
+function formatDate(value){
+  const date=new Date(value);
+  if(Number.isNaN(date.getTime()))return "—";
+  return date.toLocaleString();
+}
+
+function showError(message){
+  loadingCard.hidden=true;
+  orderContent.hidden=true;
+  errorCard.hidden=false;
+  errorText.textContent=message;
+  stopPolling("Polling stopped");
+}
+
+function setPaymentFeedback(message,type="info"){
+  paymentFeedback.textContent=message;
+  paymentFeedback.className=`payment-feedback ${type}`;
+  paymentFeedback.hidden=false;
+}
+
+function clearPaymentFeedback(){
+  paymentFeedback.hidden=true;
+  paymentFeedback.textContent="";
+  paymentFeedback.className="payment-feedback";
+}
+
+function apiMessage(payload,statusCode){
+  if(typeof payload?.detail==="string")return payload.detail;
+  if(typeof payload?.detail?.message==="string")return payload.detail.message;
+  if(Array.isArray(payload?.detail)){
+    return payload.detail.map(item=>item.msg||"Invalid request.").join(" ");
+  }
+  return `Request failed with HTTP ${statusCode}.`;
+}
+
+function updateSupportLinks(){
+  const subject=orderId
+    ? `Sepolia Market support — order ${orderId}`
+    : "Sepolia Market support";
+  const href=`mailto:getsepolia@protonmail.de?subject=${encodeURIComponent(subject)}`;
+
+  if(orderHelpLink)orderHelpLink.href=href;
+  if(supportEmailButton)supportEmailButton.href=href;
+}
+
+function renderTimeline(status){
+  const currentIndex=ORDERED_STEPS.indexOf(status);
+  document.querySelectorAll(".timeline-item").forEach(item=>{
+    const index=ORDERED_STEPS.indexOf(item.dataset.step);
+    item.classList.remove("done","active");
+    if(status==="delivered"||index<currentIndex)item.classList.add("done");
+    else if(index===currentIndex)item.classList.add("active");
+  });
+}
+
+function renderTerminal(status,errorMessage){
+  terminalState.hidden=true;
+  terminalState.className="terminal";
+  terminalState.textContent="";
+  if(status==="manual_review"){
+    terminalState.hidden=false;
+    terminalState.classList.add("manual_review");
+    terminalState.textContent=errorMessage||"The order has been paused for manual review.";
+  }
+  if(status==="failed"){
+    terminalState.hidden=false;
+    terminalState.classList.add("failed");
+    terminalState.textContent=errorMessage||"The order failed. Please contact support with the order ID.";
+  }
+  if(status==="expired"){
+    terminalState.hidden=false;
+    terminalState.classList.add("expired");
+    terminalState.textContent="The order expired before payment confirmation.";
+  }
+}
+
+function renderPayment(order){
+  const payable=order.status==="created"||order.status==="payment_submitted";
+  paymentCard.hidden=!payable;
+  if(!payable)return;
+
+  $("paymentAmount").textContent=Number(order.price_usdc).toFixed(2);
+
+  const paymentWallet=order.payment_wallet||selectedAccount;
+  $("paymentWalletFull").textContent=paymentWallet?shortAddress(paymentWallet):"Not assigned yet";
+  $("paymentWalletFull").title=paymentWallet||"";
+  $("paymentWallet").textContent=paymentWallet?shortAddress(paymentWallet):"Not assigned yet";
+  $("paymentWallet").title=paymentWallet||"";
+
+  if(paymentConfig){
+    $("treasuryAddress").textContent=shortAddress(paymentConfig.treasury_address);
+    $("treasuryAddress").title=paymentConfig.treasury_address;
+
+    manualTreasuryAddress.value=paymentConfig.treasury_address;
+    copyTreasuryButton.disabled=false;
+  }else{
+    $("treasuryAddress").textContent="Unavailable";
+
+    manualTreasuryAddress.value="";
+    copyTreasuryButton.disabled=true;
+  }
+
+  manualPaymentAmount.textContent=Number(order.price_usdc).toFixed(2);
+
+  if(order.status==="payment_submitted"){
+    walletPayButton.disabled=true;
+    submitManualTx.disabled=true;
+    walletPayButton.textContent="Payment submitted";
+    setPaymentFeedback("Payment submitted. Waiting for the required Arbitrum confirmations.","info");
+    return;
+  }
+
+  /*
+   * Manual verification does not require a connected browser wallet.
+   * The backend identifies the actual payer from the verified USDC
+   * Transfer event and binds that address to the order if necessary.
+   */
+  submitManualTx.disabled=!paymentConfig?.payment_enabled;
+
+  walletPayButton.disabled=!paymentConfig?.payment_enabled;
+  walletPayButton.textContent=paymentWallet
+    ? `Pay with ${selectedWalletInfo?.name||"connected wallet"}`
+    : "Connect wallet";
+}
+
+function renderOrder(order){
+  currentOrder=order;
+  const meta=STATUS_META[order.status]||{
+    label:order.status,
+    message:"The order status was updated.",
+    color:"#687180",
+    background:"#f8f9fb"
+  };
+
+  loadingCard.hidden=true;
+  errorCard.hidden=true;
+  orderContent.hidden=false;
+
+  statusLabel.textContent=meta.label;
+  statusMessage.textContent=meta.message;
+  statusBadge.style.color=meta.color;
+  statusBadge.style.background=meta.background;
+
+  $("orderId").textContent=order.id;
+  $("amount").textContent=order.sepolia_amount;
+  $("price").textContent=Number(order.price_usdc).toFixed(2);
+  $("recipient").textContent=shortAddress(order.recipient_address);
+  $("recipient").title=order.recipient_address;
+  $("paymentWallet").textContent=order.payment_wallet?shortAddress(order.payment_wallet):"Not assigned yet";
+  $("paymentWallet").title=order.payment_wallet||"";
+  $("createdAt").textContent=formatDate(order.created_at);
+  $("expiresAt").textContent=formatDate(order.expires_at);
+
+  renderTimeline(order.status);
+  renderTerminal(order.status,order.error_message);
+  renderPayment(order);
+
+  document.title=`${meta.label} — Sepolia Market`;
+
+  if(TERMINAL_STATUSES.has(order.status)){
+    stopPolling(`Final status: ${meta.label}`);
+  }else{
+    refreshText.textContent="Refreshing every 3 seconds";
+  }
+}
+
+async function loadPaymentConfig(){
+  try{
+    const response=await fetch("/api/payment-config",{
+      headers:{Accept:"application/json"},
+      cache:"no-store"
+    });
+    const payload=await response.json();
+    if(!response.ok)throw new Error(apiMessage(payload,response.status));
+    paymentConfig=payload;
+  }catch(error){
+    paymentConfig=null;
+    setPaymentFeedback(error?.message||"Payment configuration could not be loaded.","error");
+  }
+
+  if(currentOrder)renderPayment(currentOrder);
+}
+
+async function loadOrder(){
+  if(requestInFlight||!orderId)return;
+  requestInFlight=true;
+
+  try{
+    const response=await fetch(`/api/orders/${encodeURIComponent(orderId)}`,{
+      headers:{Accept:"application/json"},
+      cache:"no-store"
+    });
+
+    let payload=null;
+    try{payload=await response.json();}catch{payload=null;}
+
+    if(!response.ok)throw new Error(apiMessage(payload,response.status));
+    renderOrder(payload);
+
+    if(
+      payload.status==="payment_submitted" &&
+      payload.payment_tx_hash &&
+      Date.now()-lastAutoVerificationAt>5000
+    ){
+      lastAutoVerificationAt=Date.now();
+      verifyPaymentHash(payload.payment_tx_hash,true);
+    }
+  }catch(error){
+    showError(error?.message||"Order could not be loaded.");
+  }finally{
+    requestInFlight=false;
+  }
+}
+
+/* ---------- EIP-6963 wallet discovery ---------- */
+
+function walletKey(info){
+  return info?.uuid||`${info?.rdns||"wallet"}:${info?.name||"unknown"}`;
+}
+
+window.addEventListener("eip6963:announceProvider",event=>{
+  const detail=event?.detail;
+  if(!detail?.info||!detail?.provider)return;
+  discoveredWallets.set(walletKey(detail.info),detail);
+  renderWalletList();
+});
+
+function requestProviders(){
+  window.dispatchEvent(new Event("eip6963:requestProvider"));
+}
+
+function addLegacyProviderFallback(){
+  if(!window.ethereum)return;
+
+  const alreadyPresent=[...discoveredWallets.values()]
+    .some(item=>item.provider===window.ethereum);
+
+  if(alreadyPresent)return;
+
+  const name=
+    window.ethereum.isRabby ? "Rabby Wallet" :
+    window.ethereum.isPhantom ? "Phantom" :
+    window.ethereum.isCoinbaseWallet ? "Coinbase Wallet" :
+    window.ethereum.isMetaMask ? "MetaMask" :
+    "Browser Wallet";
+
+  discoveredWallets.set("legacy-window-ethereum",{
+    info:{
+      uuid:"legacy-window-ethereum",
+      name,
+      icon:"",
+      rdns:"legacy.window.ethereum"
+    },
+    provider:window.ethereum
+  });
+}
+
+function createWalletLogo(info){
+  const logo=document.createElement("span");
+  logo.className="wallet-logo";
+
+  if(
+    typeof info?.icon==="string" &&
+    info.icon.startsWith("data:image/")
+  ){
+    const img=document.createElement("img");
+    img.src=info.icon;
+    img.alt="";
+    logo.appendChild(img);
+  }else{
+    logo.textContent=(info?.name||"W").trim().charAt(0).toUpperCase();
+  }
+
+  return logo;
+}
+
+function renderWalletList(){
+  walletList.innerHTML="";
+  const wallets=[...discoveredWallets.values()]
+    .sort((a,b)=>String(a.info?.name||"").localeCompare(String(b.info?.name||"")));
+
+  walletEmpty.hidden=wallets.length>0;
+
+  for(const {info,provider} of wallets){
+    const button=document.createElement("button");
+    button.type="button";
+    button.className="wallet-option";
+
+    const text=document.createElement("span");
+    const title=document.createElement("b");
+    const subtitle=document.createElement("small");
+    title.textContent=info?.name||"EVM Wallet";
+    subtitle.textContent=info?.rdns||"EIP-1193 provider";
+    text.append(title,subtitle);
+
+    const arrow=document.createElement("span");
+    arrow.className="wallet-arrow";
+    arrow.textContent="→";
+
+    button.append(createWalletLogo(info),text,arrow);
+    button.onclick=()=>connectSelectedWallet(provider,info);
+
+    walletList.appendChild(button);
+  }
+}
+
+async function openWalletModal(){
+  walletModalBg.hidden=false;
+  document.body.classList.add("modal-open");
+  walletModalText.textContent="Searching for EVM browser wallets…";
+
+  requestProviders();
+  await new Promise(resolve=>setTimeout(resolve,EIP6963_DISCOVERY_WAIT_MS));
+  addLegacyProviderFallback();
+  renderWalletList();
+
+  walletModalText.textContent=
+    "Select the EVM browser wallet you want to use for the Arbitrum USDC payment.";
+}
+
+function closeWalletModal(){
+  walletModalBg.hidden=true;
+  document.body.classList.remove("modal-open");
+}
+
+async function ensureArbitrum(provider){
+  const chainId=await provider.request({method:"eth_chainId"});
+  if(String(chainId).toLowerCase()===ARBITRUM_CHAIN_ID_HEX)return;
+
+  try{
+    await provider.request({
+      method:"wallet_switchEthereumChain",
+      params:[{chainId:ARBITRUM_CHAIN_ID_HEX}]
+    });
+  }catch(error){
+    if(error?.code===4902){
+      await provider.request({
+        method:"wallet_addEthereumChain",
+        params:[ARBITRUM_PARAMS]
+      });
+    }else{
+      throw error;
+    }
+  }
+
+  const confirmed=await provider.request({method:"eth_chainId"});
+  if(String(confirmed).toLowerCase()!==ARBITRUM_CHAIN_ID_HEX){
+    throw new Error("The wallet must be connected to Arbitrum One.");
+  }
+}
+
+async function assignPaymentWallet(account){
+  const response=await fetch(
+    `/api/orders/${encodeURIComponent(orderId)}/payment-wallet`,
+    {
+      method:"POST",
+      headers:{
+        Accept:"application/json",
+        "Content-Type":"application/json"
+      },
+      body:JSON.stringify({payment_wallet:account})
+    }
+  );
+
+  let payload=null;
+  try{payload=await response.json();}catch{payload=null;}
+
+  if(!response.ok){
+    throw new Error(apiMessage(payload,response.status));
+  }
+
+  renderOrder(payload);
+  return payload;
+}
+
+async function connectSelectedWallet(provider,info){
+  if(!provider?.request){
+    setPaymentFeedback("The selected wallet does not expose a compatible EIP-1193 provider.","error");
+    return;
+  }
+
+  try{
+    walletModalText.textContent=`Waiting for ${info?.name||"wallet"}…`;
+
+    const accounts=await provider.request({method:"eth_requestAccounts"});
+    const account=accounts?.[0];
+
+    if(!account)throw new Error("No wallet account was returned.");
+
+    await ensureArbitrum(provider);
+
+    const updatedOrder=await assignPaymentWallet(account);
+
+    selectedProvider=provider;
+    selectedWalletInfo=info||null;
+    selectedAccount=account;
+
+    closeWalletModal();
+
+    setPaymentFeedback(
+      `${info?.name||"Wallet"} connected as ${shortAddress(account)}. Review the amount and click pay.`,
+      "success"
+    );
+
+    renderPayment(updatedOrder);
+  }catch(error){
+    walletModalText.textContent=
+      error?.message||"Wallet connection failed.";
+  }
+}
+
+/* ---------- USDC payment ---------- */
+
+function encodeUsdcTransfer(recipientAddress,amountUnits){
+  const selector="a9059cbb";
+  const addressWord=recipientAddress.toLowerCase().replace(/^0x/,"").padStart(64,"0");
+  const amountWord=BigInt(amountUnits).toString(16).padStart(64,"0");
+  return `0x${selector}${addressWord}${amountWord}`;
+}
+
+function usdcUnits(priceText,decimals){
+  const text=String(priceText);
+  const [wholeRaw,fractionRaw=""]=text.split(".");
+  const whole=wholeRaw||"0";
+  const fraction=(fractionRaw+"0".repeat(decimals)).slice(0,decimals);
+  return BigInt(whole)*10n**BigInt(decimals)+BigInt(fraction||"0");
+}
+
+async function waitForReceipt(provider,txHash){
+  for(let attempt=0;attempt<60;attempt+=1){
+    const receipt=await provider.request({
+      method:"eth_getTransactionReceipt",
+      params:[txHash]
+    });
+
+    if(receipt){
+      if(parseInt(receipt.status,16)!==1){
+        throw new Error("The USDC transaction reverted.");
+      }
+      return receipt;
+    }
+
+    await new Promise(resolve=>setTimeout(resolve,2000));
+  }
+
+  throw new Error(
+    "The transaction was submitted but was not mined within two minutes. " +
+    "Use the transaction hash below to verify it later."
+  );
+}
+
+async function payOrder(){
+  if(paymentRequestInFlight||!currentOrder||!paymentConfig)return;
+
+  if(!paymentConfig.payment_enabled){
+    setPaymentFeedback("Payment processing is currently disabled.","error");
+    return;
+  }
+
+  if(!selectedProvider||!selectedAccount){
+    await openWalletModal();
+    return;
+  }
+
+  if(
+    currentOrder.payment_wallet &&
+    selectedAccount.toLowerCase()!==currentOrder.payment_wallet.toLowerCase()
+  ){
+    setPaymentFeedback(
+      `Use the payment wallet ${shortAddress(currentOrder.payment_wallet)} for this order.`,
+      "error"
+    );
+    return;
+  }
+
+  paymentRequestInFlight=true;
+  walletPayButton.disabled=true;
+  clearPaymentFeedback();
+
+  try{
+    await ensureArbitrum(selectedProvider);
+
+    const amount=usdcUnits(
+      currentOrder.price_usdc,
+      paymentConfig.token_decimals
+    );
+
+    const data=encodeUsdcTransfer(
+      paymentConfig.treasury_address,
+      amount
+    );
+
+    setPaymentFeedback(
+      `Confirm the ${Number(currentOrder.price_usdc).toFixed(2)} USDC transfer in ${selectedWalletInfo?.name||"your wallet"}.`,
+      "info"
+    );
+
+    const txHash=await selectedProvider.request({
+      method:"eth_sendTransaction",
+      params:[{
+        from:selectedAccount,
+        to:paymentConfig.token_contract,
+        value:"0x0",
+        data
+      }]
+    });
+
+    manualTxHash.value=txHash;
+
+    setPaymentFeedback(
+      `Transaction submitted: ${shortAddress(txHash)}. Waiting for mining…`,
+      "info"
+    );
+
+    await waitForReceipt(selectedProvider,txHash);
+    await verifyPaymentHash(txHash,false);
+  }catch(error){
+    setPaymentFeedback(
+      error?.message||"The payment could not be submitted.",
+      "error"
+    );
+  }finally{
+    paymentRequestInFlight=false;
+    if(currentOrder?.status==="created"){
+      walletPayButton.disabled=false;
+    }
+  }
+}
+
+async function verifyPaymentHash(txHash,silent=false){
+  const normalized=String(txHash||"").trim().toLowerCase();
+
+  if(!/^0x[a-f0-9]{64}$/.test(normalized)){
+    if(!silent){
+      setPaymentFeedback(
+        "Enter a valid 32-byte Arbitrum transaction hash.",
+        "error"
+      );
+    }
+    return;
+  }
+
+  if(paymentRequestInFlight&&silent)return;
+
+  if(!silent){
+    paymentRequestInFlight=true;
+    submitManualTx.disabled=true;
+    setPaymentFeedback(
+      "Verifying the USDC transfer on Arbitrum…",
+      "info"
+    );
+  }
+
+  try{
+    const response=await fetch(
+      `/api/orders/${encodeURIComponent(orderId)}/payment`,
+      {
+        method:"POST",
+        headers:{
+          Accept:"application/json",
+          "Content-Type":"application/json"
+        },
+        body:JSON.stringify({transaction_hash:normalized})
+      }
+    );
+
+    let payload=null;
+    try{payload=await response.json();}catch{payload=null;}
+
+    if(!response.ok){
+      throw new Error(apiMessage(payload,response.status));
+    }
+
+    renderOrder(payload);
+
+    if(payload.status==="payment_confirmed"){
+      setPaymentFeedback(
+        "Payment confirmed successfully.",
+        "success"
+      );
+    }else{
+      setPaymentFeedback(
+        "Payment found. Waiting for additional confirmations.",
+        "info"
+      );
+    }
+  }catch(error){
+    const message=error?.message||"Payment verification failed.";
+
+    if(!silent||!message.includes("not been mined")){
+      setPaymentFeedback(message,"error");
+    }
+  }finally{
+    if(!silent){
+      paymentRequestInFlight=false;
+      submitManualTx.disabled=false;
+    }
+  }
+}
+
+function stopPolling(message){
+  if(pollTimer!==null){
+    clearInterval(pollTimer);
+    pollTimer=null;
+  }
+  refreshText.textContent=message;
+}
+
+copyTreasuryButton.onclick=async()=>{
+  const address=manualTreasuryAddress.value.trim();
+
+  if(!address){
+    setPaymentFeedback(
+      "The treasury address is not available yet.",
+      "error"
+    );
+    return;
+  }
+
+  try{
+    if(navigator.clipboard && window.isSecureContext){
+      await navigator.clipboard.writeText(address);
+    }else{
+      manualTreasuryAddress.focus();
+      manualTreasuryAddress.select();
+
+      const copied=document.execCommand("copy");
+      manualTreasuryAddress.setSelectionRange(0,0);
+
+      if(!copied){
+        throw new Error("Clipboard access is unavailable.");
+      }
+    }
+
+    setPaymentFeedback(
+      "Full Arbitrum USDC recipient address copied to the clipboard.",
+      "success"
+    );
+  }catch(error){
+    setPaymentFeedback(
+      "Could not copy automatically. Select and copy the address manually.",
+      "error"
+    );
+  }
+};
+
+walletPayButton.onclick=payOrder;
+submitManualTx.onclick=()=>{
+  verifyPaymentHash(manualTxHash.value,false);
+};
+$("walletClose").onclick=closeWalletModal;
+
+walletModalBg.onclick=event=>{
+  if(event.target===walletModalBg){
+    closeWalletModal();
+  }
+};
+
+document.onkeydown=event=>{
+  if(event.key==="Escape"&&!walletModalBg.hidden){
+    closeWalletModal();
+  }
+};
+
+requestProviders();
+updateSupportLinks();
+
+if(!orderId){
+  showError("No order ID was supplied in the URL.");
+}else{
+  Promise.all([loadPaymentConfig(),loadOrder()]);
+  pollTimer=setInterval(loadOrder,3000);
+}
+</script>
+</body>
+</html>

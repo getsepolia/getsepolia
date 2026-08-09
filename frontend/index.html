@@ -1,0 +1,1026 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="description" content="Get free Sepolia ETH from our developer faucet or request larger amounts for Ethereum Sepolia testing and development." />
+<meta name="robots" content="index,follow"/>
+<link rel="canonical" href="https://getsepolia.2bd.net/">
+<title>Get Sepolia ETH — Free Faucet &amp; Instant Delivery</title>
+<style>
+:root{--bg:#f4f6f8;--surface:#fff;--soft:#f8f9fb;--ink:#151923;--muted:#687180;--line:#e0e5eb;--accent:#5a5bd4;--accent2:#4445b4;--accentSoft:#eeeeff;--ok:#16835d;--okSoft:#e9f7f1;--danger:#b23e46;--shadow:0 18px 55px rgba(25,32,47,.08);--r1:24px;--r2:15px}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;color:var(--ink);background:radial-gradient(circle at 85% 0,rgba(90,91,212,.11),transparent 30%),var(--bg);font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;-webkit-font-smoothing:antialiased}button,input{font:inherit}button,a{-webkit-tap-highlight-color:transparent}a{color:inherit;text-decoration:none}.shell{width:min(1220px,calc(100% - 40px));margin:auto}.header{height:82px;display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:24px;border-bottom:1px solid rgba(224,229,235,.9)}.brand{display:flex;align-items:center;gap:12px;width:max-content}.mark{width:40px;height:40px;display:grid;place-items:center;border-radius:12px;background:var(--ink);color:#fff;font-weight:800}.brand b,.brand small{display:block}.brand b{font-size:.98rem}.brand small{margin-top:2px;color:var(--muted);font-size:.72rem}.nav{display:flex;align-items:center;gap:25px;color:var(--muted);font-size:.88rem}.btn{min-height:46px;display:inline-flex;align-items:center;justify-content:center;padding:0 20px;border:1px solid transparent;border-radius:12px;cursor:pointer;font-weight:750;transition:.15s}.btn:hover{transform:translateY(-1px)}.btn:disabled{transform:none}.primary{background:var(--accent);color:#fff;box-shadow:0 8px 22px rgba(90,91,212,.22)}.primary:hover{background:var(--accent2)}.secondary{background:#fff;border-color:var(--line)}.small{min-height:40px;padding-inline:15px;font-size:.84rem}.header>.btn{justify-self:end}.hero{min-height:600px;display:grid;grid-template-columns:1.08fr .92fr;align-items:center;gap:76px;padding:72px 0 84px}.eyebrow,.kicker,.label{color:var(--accent);font-size:.74rem;font-weight:800;letter-spacing:.09em;text-transform:uppercase}.eyebrow{display:flex;align-items:center;gap:10px}.eyebrow i{width:4px;height:4px;border-radius:50%;background:var(--accent)}h1,h2,h3,p{margin-top:0}h1{max-width:760px;margin:22px 0;font-size:clamp(3rem,5.2vw,5.35rem);line-height:.99;letter-spacing:-.058em}.lead{max-width:635px;color:var(--muted);font-size:1.14rem;line-height:1.68}.hero-notice{margin:28px 0 8px;padding:16px 18px;border-radius:14px;background:var(--okSoft);color:var(--ok);border:1px solid rgba(22,131,93,.18);font-size:.95rem;line-height:1.5}.hero-notice a{color:inherit;font-weight:700;text-decoration:underline;text-underline-offset:2px}.hero-actions{display:flex;align-items:center;gap:22px;margin-top:31px}.link{color:var(--muted);font-weight:650}.metrics{display:flex;gap:38px;margin-top:52px}.metrics div{display:grid;gap:5px}.metrics strong{font-size:1.03rem}.metrics span{color:var(--muted);font-size:.77rem}.hero-panel{position:relative}.hero-panel:before{content:"";position:absolute;inset:8% -7% -8% 18%;z-index:-1;border-radius:50%;background:rgba(90,91,212,.11);filter:blur(42px)}.route-card{padding:28px;border:1px solid rgba(224,229,235,.9);border-radius:var(--r1);background:rgba(255,255,255,.9);box-shadow:var(--shadow);backdrop-filter:blur(15px)}.route-head{display:flex;justify-content:space-between;gap:18px}.route-head strong,.route-head span{display:block}.route-head strong{margin-top:8px}.verified{height:max-content;padding:7px 10px;border-radius:999px;color:var(--ok);background:var(--okSoft);font-size:.73rem;font-weight:750}.route{display:grid;grid-template-columns:1fr 70px 1fr;align-items:center;margin:34px 0;padding:28px 20px;border:1px solid var(--line);border-radius:var(--r2);background:var(--soft)}.node{display:flex;align-items:center;gap:11px}.node b,.node small{display:block}.node small{margin-top:4px;color:var(--muted);font-size:.75rem}.coin{width:42px;height:42px;display:grid;place-items:center;border-radius:50%;color:#fff;font-weight:800}.arb{background:#202633}.sep{background:var(--accent)}
+.line{position:relative;width:52px;height:2px;margin:0 auto;background:var(--accent);align-self:center;transform:translateX(-3px)}
+.line:after{content:"";position:absolute;right:0;top:50%;width:10px;height:10px;border-top:2px solid var(--accent);border-right:2px solid var(--accent);transform:translateY(-50%) rotate(45deg);transform-origin:center}
+.checks{display:grid;gap:13px;color:var(--muted);font-size:.83rem}.checks span{position:relative;padding-left:22px}.checks span:before{content:"✓";position:absolute;left:0;color:var(--ok);font-weight:800}.section{padding:88px 0}.section-head{display:flex;justify-content:space-between;align-items:end;gap:40px;margin-bottom:34px}.section-head h2,.faq-intro h2{margin:10px 0 0;font-size:clamp(2rem,3.4vw,3.1rem);letter-spacing:-.045em}.section-head>p{max-width:520px;margin-bottom:4px;color:var(--muted);line-height:1.64}.checkout{display:grid;grid-template-columns:minmax(0,1.46fr) minmax(330px,.74fr);gap:24px;align-items:start}.card{border:1px solid var(--line);border-radius:var(--r1);background:var(--surface);box-shadow:0 12px 34px rgba(25,32,47,.055)}.purchase{padding:31px}.summary{position:sticky;top:24px;padding:28px}.step{display:flex;align-items:center;gap:13px;margin-bottom:21px}.num{width:33px;height:33px;display:grid;place-items:center;border-radius:10px;color:var(--accent);background:var(--accentSoft);font-weight:800}.step b,.step small{display:block}.step small{margin-top:3px;color:var(--muted)}.packages{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}.pkg{min-height:100px;padding:15px;border:1px solid var(--line);border-radius:14px;background:#fff;cursor:pointer;text-align:left;transition:.15s}.pkg:hover{border-color:#bebfe9;transform:translateY(-1px)}.pkg.active{border-color:var(--accent);background:var(--accentSoft);box-shadow:0 0 0 3px rgba(90,91,212,.08)}.pkg.free-option{border-color:#c9e7da;background:#f5fbf8}.pkg.free-option.active{border-color:var(--ok);background:var(--okSoft);box-shadow:0 0 0 3px rgba(22,131,93,.08)}.pkg.free-option span{color:var(--ok)}.pkg b,.pkg span,.pkg small{display:block}.pkg b{font-size:1.08rem}.pkg span{margin-top:11px;font-weight:750}.pkg small{margin-top:4px;color:var(--muted)}.custom{margin-top:18px}.custom label,.field-label{display:block;margin-bottom:8px;font-size:.81rem;font-weight:750}.input,.address{display:flex;align-items:center;min-height:50px;border:1px solid var(--line);border-radius:12px;background:#fff}.input:focus-within,.address:focus-within{border-color:var(--accent);box-shadow:0 0 0 3px rgba(90,91,212,.08)}.input input,.address input{min-width:0;flex:1;border:0;outline:0;background:transparent;color:var(--ink)}.input input:disabled{cursor:not-allowed;color:var(--muted)}.input input{padding:0 14px}.input span{padding-right:14px;color:var(--muted);font-size:.83rem}.hint,.message{display:block;margin-top:7px;color:var(--muted);font-size:.75rem}.divider{height:1px;margin:31px 0;background:var(--line)}.address input{padding:0 8px 0 3px;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:.82rem}.field-action{margin-right:7px;padding:8px 10px;border:0;border-radius:8px;color:var(--accent);background:var(--accentSoft);cursor:pointer;font-size:.74rem;font-weight:750}.message.error{color:var(--danger)}.message.valid{color:var(--ok)}.summary-head{display:flex;justify-content:space-between;align-items:start;gap:18px}.summary-head h3{margin:8px 0 0;font-size:1.2rem}.chip{padding:7px 9px;border-radius:9px;color:var(--muted);background:var(--soft);font-size:.71rem;font-weight:750}.summary dl{margin:24px 0}.summary dl div{display:flex;justify-content:space-between;gap:24px;padding:14px 0;border-bottom:1px solid var(--line)}.summary dt{color:var(--muted)}.summary dd{margin:0;text-align:right;font-weight:750}.faucet-tx{max-width:250px;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:.72rem;line-height:1.45;overflow-wrap:anywhere}.faucet-tx a{color:var(--accent);text-decoration:underline;text-decoration-color:rgba(90,91,212,.3);text-underline-offset:2px}.saving{display:flex;align-items:center;justify-content:space-between;gap:18px;margin-bottom:20px;padding:14px;border-radius:12px;color:var(--ok);background:var(--okSoft)}.saving span,.saving b{display:block}.saving span{font-size:.73rem}.saving b{margin-top:3px;font-size:.81rem}.wide{width:100%}.note{margin:12px 0 0;color:var(--muted);font-size:.71rem;line-height:1.5;text-align:center}.security{display:flex;align-items:center;gap:10px;margin-top:20px;padding-top:18px;border-top:1px solid var(--line);color:var(--muted);font-size:.75rem}.security strong{color:var(--ok)}.center{display:block;max-width:700px;margin:0 auto 42px;text-align:center}.how{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}.how article{min-height:248px;padding:28px;border:1px solid var(--line);border-radius:var(--r2);background:rgba(255,255,255,.65)}.how .n{display:grid;place-items:center;width:44px;height:44px;margin-bottom:48px;border-radius:12px;color:var(--accent);background:var(--accentSoft);font-weight:800}.how h3{font-size:1.13rem}.how p,.faq-intro p,.faq p{color:var(--muted);line-height:1.65}.faq-wrap{display:grid;grid-template-columns:.76fr 1.24fr;gap:68px}.faq-intro{max-width:430px}.faq details{border-bottom:1px solid var(--line)}.faq summary{position:relative;padding:22px 38px 22px 0;cursor:pointer;list-style:none;font-weight:750}.faq summary::-webkit-details-marker{display:none}.faq summary:after{content:"+";position:absolute;right:4px;top:18px;color:var(--muted);font-size:1.35rem;font-weight:400}.faq details[open] summary:after{content:"−"}.faq p{margin-bottom:24px}footer{display:grid;grid-template-columns:1fr 1fr;align-items:center;gap:24px;padding:34px 0 44px;border-top:1px solid var(--line);color:var(--muted);font-size:.77rem}footer b,footer span{display:block}footer b{color:var(--ink)}footer span{margin-top:3px}.footer-right{justify-self:end;text-align:right}.footer-links{display:flex;justify-content:flex-end;gap:16px;margin-bottom:6px}.footer-links a{color:var(--ink);font-weight:650}.footer-links a:hover{color:var(--accent)}footer p{margin:0}.legal-wrap{display:grid;grid-template-columns:1fr 1fr;gap:22px;margin-bottom:72px}.legal-card{padding:28px}.legal-card h2{margin:8px 0 14px;font-size:1.45rem;letter-spacing:-.025em}.legal-card p{margin-bottom:12px;color:var(--muted);line-height:1.65;font-size:.9rem}.legal-card p:last-child{margin-bottom:0}.legal-card a{color:var(--accent);font-weight:700}.support-card{padding:28px;margin-bottom:72px;text-align:center}.support-card h2{margin:8px 0 10px;font-size:1.45rem;letter-spacing:-.025em}.support-card p{max-width:620px;margin:0 auto 18px;color:var(--muted);line-height:1.65;font-size:.9rem}.support-card .btn{width:auto;min-width:180px}[hidden]{display:none!important}
+@media(max-width:980px){.header{grid-template-columns:1fr auto}.nav{display:none}.hero{grid-template-columns:1fr;gap:42px}.checkout{grid-template-columns:1fr}.summary{position:static}.faq-wrap{grid-template-columns:1fr;gap:30px}footer{grid-template-columns:1fr;text-align:center}.footer-right{justify-self:center;text-align:center}.footer-links{justify-content:center}.legal-wrap{grid-template-columns:1fr}}
+@media(max-width:720px){.shell{width:min(100% - 24px,1220px)}.header{height:70px}.brand small{display:none}.hero{min-height:auto;padding:54px 0 66px}h1{font-size:clamp(2.6rem,13vw,4.15rem)}.lead{font-size:1rem}.metrics{display:grid;grid-template-columns:1fr 1fr;gap:22px}.route{grid-template-columns:1fr;gap:20px}.line{width:2px;height:30px;margin-left:20px;background:var(--accent)}.line:after{top:auto;right:auto;bottom:0;left:50%;transform:translateX(-50%) rotate(135deg)}.section{padding:62px 0}.section-head{display:block}.section-head>p{margin-top:18px}.purchase,.summary{padding:22px}.packages{grid-template-columns:repeat(2,1fr)}.how{grid-template-columns:1fr}.how article{min-height:auto}.how .n{margin-bottom:25px}.address{flex-wrap:wrap;padding:8px}.address input{min-height:38px}}
+</style>
+</head>
+<body>
+<div class="shell">
+<header class="header">
+<a class="brand" href="#"><span class="mark">S</span><span><b>Get Sepolia ETH</b><small>Sepolia testnet funding</small></span></a>
+<nav class="nav"><a href="#how">How it works</a><a href="#faq">FAQ</a></nav>
+<a class="btn secondary small" href="#checkout">Get Sepolia ETH</a>
+</header>
+<main>
+<section class="hero">
+<div>
+<div class="eyebrow"><span>Ethereum Sepolia</span><i></i><span>Delivered in minutes</span></div>
+<h1>Instant Sepolia ETH<br>for development and testing.</h1>
+<p class="lead">Fund a Sepolia wallet without faucet limits. Choose an amount, pay with USDC on Arbitrum One, and receive native Sepolia ETH.</p>
+<div class="hero-notice"><strong>Free faucet available:</strong> get <b>0.02 Sepolia ETH</b> every 24 hours with no payment required. <a href="#checkout">Use the free faucet →</a></div>
+<div class="hero-actions"><a class="btn primary" href="#checkout">Free Faucet &amp; Paid ETH</a><a class="link" href="#how">See how it works</a></div>
+<div class="metrics"><div><strong id="inventoryAvailable">Checking…</strong><span>Available now</span></div><div><strong id="inventoryMaxOrder">Checking…</strong><span>Maximum current order</span></div><div><strong>Arbitrum</strong><span>Low-cost settlement</span></div></div>
+</div>
+<aside class="hero-panel"><div class="route-card"><div class="route-head"><div><span class="label">Route</span><strong>Arbitrum One → Sepolia</strong></div><span class="verified">On-chain route</span></div><div class="route"><div class="node"><span class="coin arb">A</span><div><b>USDC</b><small>Arbitrum One</small></div></div><div class="line" aria-hidden="true"><span></span></div><div class="node"><span class="coin sep">S</span><div><b>Sepolia ETH</b><small>Ethereum Sepolia</small></div></div></div><div class="checks"><span>Automatic delivery</span><span>No faucet account required</span><span>Recipient address selectable</span></div></div></aside>
+</section>
+<section id="checkout" class="section">
+<div class="section-head"><div><span class="kicker">Get Sepolia ETH</span><h2>Free faucet or instant delivery</h2></div><p>Use the small free faucet for a quick test, or choose a larger developer provisioning package paid in USDC.</p></div>
+<div class="checkout">
+<div class="card purchase">
+<div class="step"><span class="num">1</span><div><b>Select package</b><small>Volume discounts are applied automatically.</small></div></div>
+<div id="packages" class="packages"></div>
+<div class="custom"><label for="custom">Custom amount</label><div class="input"><input id="custom" type="number" min="1" max="500" step="1" placeholder="Enter 1–500"><span>Sepolia ETH</span></div><small class="hint">Custom orders use the current volume pricing tier.</small></div>
+<div class="divider"></div>
+<div class="step"><span class="num">2</span><div><b>Recipient address</b><small>Enter the wallet that should receive Sepolia ETH.</small></div></div>
+<label class="field-label" for="recipient">Sepolia recipient</label>
+<div class="address">
+  <input
+    id="recipient"
+    autocomplete="off"
+    spellcheck="false"
+    placeholder="0x… Sepolia recipient address"
+  >
+</div>
+<p id="addressMessage" class="message">Enter the Sepolia wallet that should receive the testnet ETH.</p>
+</div>
+<aside class="card summary">
+<div class="summary-head"><div><span class="label">Order summary</span><h3 id="summaryTitle">Sepolia ETH delivery</h3></div><span id="summaryChip" class="chip">Arbitrum USDC</span></div>
+<dl>
+<div><dt>You receive</dt><dd><span id="sumAmount">50</span> Sepolia ETH</dd></div>
+<div id="sumPayRow"><dt>You pay</dt><dd><span id="sumPrice">5.00</span> USDC</dd></div>
+<div id="sumUnitRow"><dt>Price per ETH</dt><dd><span id="sumUnit">0.100</span> USDC</dd></div>
+<div id="sumCooldownRow" hidden><dt>Availability</dt><dd id="sumCooldown">Once every 24 hours</dd></div>
+<div id="faucetTxRow" hidden><dt>Transaction</dt><dd class="faucet-tx"><a id="faucetTxLink" href="#" target="_blank" rel="noopener noreferrer"><span id="faucetTxHash"></span></a></dd></div>
+<div><dt>Delivery network</dt><dd>Ethereum Sepolia</dd></div>
+</dl>
+<div class="saving"><div><span id="sumSavingLabel">Pricing</span><b id="sumSaving">Volume pricing applied</b></div><strong>✓</strong></div>
+<button id="checkoutBtn" class="btn primary wide" type="button">Checking inventory…</button>
+<p id="checkoutNote" class="note">Checking current Sepolia inventory…</p>
+<div class="security"><strong>✓</strong><span id="securityText">No wallet connection is required until the payment step.</span></div>
+</aside>
+</div>
+</section>
+<section id="how" class="section"><div class="section-head center"><span class="kicker">Simple by design</span><h2>From payment to delivery in three steps</h2></div><div class="how"><article><span class="n">01</span><h3>Choose an amount</h3><p>Try the free 0.02 Sepolia ETH faucet once every 24 hours, select a paid package, or enter a custom quantity between 1 and 500 Sepolia ETH.</p></article><article><span class="n">02</span><h3>Pay on Arbitrum</h3><p>Free faucet requests require no payment. For larger amounts, continue to the order page and pay the fixed amount in native USDC on Arbitrum One.</p></article><article><span class="n">03</span><h3>Receive on Sepolia</h3><p>After payment confirmation, native Sepolia ETH is sent to the recipient address.</p></article></div></section>
+<section id="faq" class="section faq-wrap"><div class="faq-intro"><span class="kicker">FAQ</span><h2>Before you get started</h2><p>Answers about the free faucet, paid delivery, wallet requirements and Sepolia testnet ETH.</p></div><div class="faq"><details open><summary>What exactly am I paying for?</summary><p>You are paying for rapid provisioning and delivery infrastructure. Sepolia ETH is a testnet asset intended for development and testing, not an investment product.</p></details><details><summary>Can I send Sepolia ETH to another wallet?</summary><p>Yes. The payment wallet and recipient wallet may be different. The recipient must be a valid EVM address compatible with Ethereum Sepolia.</p></details><details><summary>How long does delivery take?</summary><p>The target service level is under two minutes after the Arbitrum payment has been confirmed. Orders requiring manual review may take longer.</p></details><details><summary>Can Sepolia ETH be converted to mainnet ETH?</summary><p>No. Sepolia ETH is native to the Sepolia test network and cannot be redeemed for Ethereum mainnet ETH.</p></details></div></section>
+
+<section id="legal" class="section">
+  <div class="section-head">
+    <div>
+      <span class="kicker">Information</span>
+      <h2>Contact &amp; privacy</h2>
+    </div>
+    <p>Support details and information about how the service handles order, faucet and technical data.</p>
+  </div>
+
+  <div class="legal-wrap">
+    <article id="contact" class="card legal-card">
+      <span class="label">Contact</span>
+      <h2>Get in touch</h2>
+      <p>For questions about orders, payments, delivery, security reports or the service itself, contact:</p>
+      <p><a href="mailto:getsepolia@protonmail.de">getsepolia@protonmail.de</a></p>
+      <p>Please include the order ID when contacting us about an existing order. Never send private keys, seed phrases or wallet passwords.</p>
+    </article>
+
+    <article id="privacy" class="card legal-card">
+      <span class="label">Privacy</span>
+      <h2>Privacy notice</h2>
+      <p>The service processes the information required to create and fulfil an order, including recipient wallet addresses, order amount and order status. If you proceed to payment, the payment wallet address and submitted transaction hash are also processed for on-chain verification.</p>
+      <p>Blockchain transactions are public by design. When blockchain RPC providers are used to verify balances, payments or payouts, those providers may receive technical request data. The web server may also process standard connection data such as IP addresses, timestamps and request paths for operation and security. For free-faucet abuse prevention, the service stores a keyed one-way pseudonymous identifier derived from the requesting IP address rather than storing that address in the faucet-claim record.</p>
+      <p>We currently do not use advertising trackers or third-party analytics on this page. Order and technical data are retained only as needed for service operation, troubleshooting, abuse prevention and applicable legal obligations.</p>
+      <p>Privacy questions can be sent to <a href="mailto:getsepolia@protonmail.de">getsepolia@protonmail.de</a>.</p>
+    </article>
+  </div>
+</section>
+
+
+<section class="card support-card" id="support">
+  <span class="label">Support</span>
+  <h2>Need help?</h2>
+  <p>If you have a question about a faucet claim, order, payment or delivery, contact support and include any relevant claim or order ID.</p>
+  <a class="btn secondary" href="mailto:getsepolia@protonmail.de?subject=Sepolia%20Market%20Support">Contact support</a>
+</section>
+
+</main>
+<footer>
+  <div><b>Get Sepolia ETH</b><span>Sepolia testnet funding for developers</span></div>
+  <div class="footer-right">
+    <div class="footer-links">
+      <a href="#contact">Contact</a>
+      <a href="#privacy">Privacy</a>
+      <a href="#support">Support</a>
+    </div>
+    <p>Sepolia ETH is intended solely for development and testing.</p>
+  </div>
+</footer>
+</div>
+
+<script>
+const FALLBACK_PACKAGES=[
+  {a:1,p:.25},
+  {a:5,p:.75},
+  {a:10,p:1.25},
+  {a:25,p:2.75},
+  {a:50,p:5},
+  {a:100,p:9},
+  {a:200,p:16}
+];
+
+const INVENTORY_REFRESH_MS=15000;
+const INITIAL_INVENTORY_RETRY_MS=1200;
+const INITIAL_INVENTORY_MAX_ATTEMPTS=3;
+
+let faucet={enabled:false,amount:0.02,cooldownHours:24};
+
+let packs=[...FALLBACK_PACKAGES];
+
+let pricing={
+  customMin:1,
+  customMax:500,
+  configuredMax:500,
+  dailyLimit:500
+};
+
+let state={
+  a:50,
+  p:5,
+  creatingOrder:false,
+  inventoryStatus:"loading",
+  inventoryEverReady:false,
+  availableOrderEth:0,
+  maxOrderEth:0,
+  inventoryRequestInFlight:false,
+  availableEthRaw:0,
+  freeMode:false,
+  faucetSubmitting:false,
+  faucetClaimed:false,
+  faucetClaimId:null,
+  faucetStatus:null,
+  faucetTxHash:null,
+  faucetPollTimer:null,
+  faucetStatusRequestInFlight:false
+};
+
+const $=id=>document.getElementById(id);
+const packages=$("packages");
+const custom=$("custom");
+const recipient=$("recipient");
+const msg=$("addressMessage");
+const sumA=$("sumAmount");
+const sumP=$("sumPrice");
+const sumU=$("sumUnit");
+const sumS=$("sumSaving");
+const sumPayRow=$("sumPayRow");
+const sumUnitRow=$("sumUnitRow");
+const sumCooldownRow=$("sumCooldownRow");
+const sumCooldown=$("sumCooldown");
+const faucetTxRow=$("faucetTxRow");
+const faucetTxHash=$("faucetTxHash");
+const faucetTxLink=$("faucetTxLink");
+const sumSavingLabel=$("sumSavingLabel");
+const summaryTitle=$("summaryTitle");
+const summaryChip=$("summaryChip");
+const securityText=$("securityText");
+const checkout=$("checkoutBtn");
+const checkoutNote=$("checkoutNote");
+const inventoryAvailable=$("inventoryAvailable");
+const inventoryMaxOrder=$("inventoryMaxOrder");
+
+const price=v=>Number(v).toFixed(2);
+const sleep=ms=>new Promise(resolve=>setTimeout(resolve,ms));
+
+function customPrice(a){
+  if(a<=1)return a*.25;
+  if(a<=5)return a*.15;
+  if(a<=10)return a*.125;
+  if(a<=25)return a*.11;
+  if(a<=50)return a*.10;
+  if(a<=100)return a*.09;
+  return a*.08;
+}
+
+async function fetchInventoryOnce(){
+  const response=await fetch("/api/inventory",{
+    headers:{Accept:"application/json"},
+    cache:"no-store"
+  });
+
+  let data=null;
+  try{
+    data=await response.json();
+  }catch{
+    data=null;
+  }
+
+  if(!response.ok){
+    throw new Error(
+      data?.detail?.message||
+      `Inventory request failed with HTTP ${response.status}.`
+    );
+  }
+
+  return data;
+}
+
+function applyInventory(data){
+  const available=Number(data.available_order_eth);
+  const maxOrder=Number(data.max_order_eth);
+
+  if(!Number.isFinite(available)||!Number.isFinite(maxOrder)){
+    throw new Error("Inventory API returned invalid values.");
+  }
+
+  state.availableEthRaw=Math.max(0,Number(data.available_eth));
+  state.availableOrderEth=Math.max(0,Math.floor(available));
+  state.maxOrderEth=Math.max(0,Math.floor(maxOrder));
+  state.inventoryStatus="ready";
+  state.inventoryEverReady=true;
+
+  inventoryAvailable.textContent=
+    `${state.availableOrderEth.toLocaleString()} ETH`;
+
+  inventoryMaxOrder.textContent=
+    `${state.maxOrderEth.toLocaleString()} ETH`;
+
+  pricing.customMax=Math.min(
+    pricing.configuredMax,
+    state.maxOrderEth
+  );
+
+  custom.max=String(pricing.customMax);
+  custom.placeholder=
+    pricing.customMax>=pricing.customMin
+      ? `Enter ${pricing.customMin}–${pricing.customMax}`
+      : "No inventory available";
+
+  if(state.a>state.availableOrderEth){
+    const selectable=packs
+      .filter(x=>x.a<=state.availableOrderEth)
+      .sort((a,b)=>b.a-a.a)[0];
+
+    if(selectable){
+      state.a=selectable.a;
+      state.p=selectable.p;
+      custom.value="";
+    }
+  }
+
+  render();
+  summary();
+}
+
+function showInitialInventoryUnavailable(message){
+  state.inventoryStatus="unavailable";
+  state.availableOrderEth=0;
+  state.maxOrderEth=0;
+
+  inventoryAvailable.textContent="Unavailable";
+  inventoryMaxOrder.textContent="—";
+
+  render();
+  buttons();
+
+  if(message){
+    checkoutNote.textContent=message;
+    checkoutNote.style.color="var(--danger)";
+  }
+}
+
+async function loadInventory({initial=false}={}){
+  if(state.inventoryRequestInFlight)return;
+
+  state.inventoryRequestInFlight=true;
+
+  if(!state.inventoryEverReady){
+    state.inventoryStatus="loading";
+    inventoryAvailable.textContent="Checking…";
+    inventoryMaxOrder.textContent="Checking…";
+    render();
+    buttons();
+  }
+
+  try{
+    let lastError=null;
+    const attempts=initial
+      ? INITIAL_INVENTORY_MAX_ATTEMPTS
+      : 1;
+
+    for(let attempt=1;attempt<=attempts;attempt++){
+      try{
+        const data=await fetchInventoryOnce();
+        applyInventory(data);
+        checkoutNote.style.color="";
+        return;
+      }catch(error){
+        lastError=error;
+
+        if(attempt<attempts){
+          await sleep(INITIAL_INVENTORY_RETRY_MS);
+        }
+      }
+    }
+
+    throw lastError||new Error("Inventory could not be loaded.");
+  }catch(error){
+    if(state.inventoryEverReady){
+      console.warn(
+        "Inventory refresh failed; keeping last known snapshot.",
+        error
+      );
+
+      state.inventoryStatus="ready";
+      buttons();
+    }else{
+      showInitialInventoryUnavailable(
+        error?.message||"Inventory could not be loaded."
+      );
+    }
+  }finally{
+    state.inventoryRequestInFlight=false;
+  }
+}
+
+
+async function loadFaucetConfig(){
+  try{
+    const response=await fetch("/api/faucet-config",{
+      headers:{Accept:"application/json"},
+      cache:"no-store"
+    });
+
+    let data=null;
+    try{data=await response.json();}catch{data=null;}
+
+    if(!response.ok){
+      throw new Error(
+        data?.detail?.message||
+        `Faucet configuration failed with HTTP ${response.status}.`
+      );
+    }
+
+    faucet.enabled=Boolean(data.enabled);
+    faucet.amount=Number(data.amount_eth);
+    faucet.cooldownHours=Number(data.cooldown_hours);
+
+    if(
+      !Number.isFinite(faucet.amount)||
+      faucet.amount<=0||
+      !Number.isFinite(faucet.cooldownHours)
+    ){
+      throw new Error("Invalid faucet configuration.");
+    }
+  }catch(error){
+    faucet.enabled=false;
+    console.info("Free faucet configuration unavailable.",error);
+  }
+
+  render();
+  summary();
+}
+
+async function loadPricing(){
+  try{
+    const response=await fetch("/api/pricing",{
+      headers:{Accept:"application/json"}
+    });
+
+    if(!response.ok){
+      throw new Error(`HTTP ${response.status}`);
+    }
+
+    const data=await response.json();
+
+    if(!Array.isArray(data.packages)||!data.packages.length){
+      throw new Error("Invalid package list");
+    }
+
+    packs=data.packages
+      .map(x=>({
+        a:Number(x.amount),
+        p:Number(x.price)
+      }))
+      .filter(x=>
+        Number.isFinite(x.a)&&
+        Number.isFinite(x.p)&&
+        x.a>=1&&
+        x.a<=500&&
+        x.p>0
+      );
+
+    if(!packs.length){
+      throw new Error("No valid packages");
+    }
+
+    pricing.customMin=Number(data.custom_min??1);
+    pricing.configuredMax=Number(data.custom_max??500);
+    pricing.customMax=pricing.configuredMax;
+    pricing.dailyLimit=Number(data.daily_limit_per_wallet??500);
+
+    custom.min=String(pricing.customMin);
+    custom.max=String(pricing.customMax);
+    custom.placeholder=
+      `Enter ${pricing.customMin}–${pricing.customMax}`;
+
+    const selected=
+      packs.find(x=>x.a===state.a)||
+      packs[0];
+
+    state.a=selected.a;
+    state.p=selected.p;
+  }catch(error){
+    console.info(
+      "Pricing backend unavailable; using built-in package prices.",
+      error
+    );
+  }
+
+  render();
+  summary();
+}
+
+function render(){
+  packages.innerHTML="";
+
+  if(faucet.enabled){
+    const free=document.createElement("button");
+    free.type="button";
+    free.className=
+      "pkg free-option"+(state.freeMode?" active":"");
+
+    const unavailable=
+      state.inventoryStatus!=="ready"||
+      state.availableEthRaw<faucet.amount||
+      state.faucetClaimed;
+
+    free.disabled=unavailable;
+    free.style.opacity=unavailable?".45":"";
+    free.style.cursor=unavailable?"not-allowed":"pointer";
+    free.title=
+      state.faucetClaimed
+        ? "A faucet request was already submitted from this page."
+        : unavailable
+          ? "Free faucet temporarily unavailable"
+          : "Free faucet claim";
+
+    free.setAttribute(
+      "aria-pressed",
+      String(state.freeMode)
+    );
+
+    free.innerHTML=
+      `<b>${faucet.amount} ETH</b>`+
+      `<span>FREE</span>`+
+      `<small>1 per ${faucet.cooldownHours} h</small>`;
+
+    free.onclick=()=>{
+      if(unavailable)return;
+      state.freeMode=true;
+      custom.value="";
+      render();
+      summary();
+    };
+
+    packages.appendChild(free);
+  }
+
+  packs.forEach(x=>{
+    const b=document.createElement("button");
+    b.type="button";
+    b.className=
+      "pkg"+(!state.freeMode&&x.a===state.a?" active":"");
+
+    const unavailable=
+      state.inventoryStatus!=="ready"||
+      x.a>state.availableOrderEth;
+
+    b.disabled=unavailable;
+    b.style.opacity=unavailable?".45":"";
+    b.style.cursor=unavailable?"not-allowed":"pointer";
+
+    b.title=
+      state.inventoryStatus==="loading"
+        ? "Checking current inventory"
+        : unavailable
+          ? "Insufficient current inventory"
+          : "";
+
+    b.setAttribute(
+      "aria-pressed",
+      String(!state.freeMode&&x.a===state.a)
+    );
+
+    b.innerHTML=
+      `<b>${x.a} ETH</b>`+
+      `<span>${price(x.p)} USDC</span>`+
+      `<small>${(x.p/x.a).toFixed(3)} per ETH</small>`;
+
+    b.onclick=()=>{
+      if(unavailable)return;
+
+      state.freeMode=false;
+      state.a=x.a;
+      state.p=x.p;
+      custom.value="";
+
+      render();
+      summary();
+    };
+
+    packages.appendChild(b);
+  });
+
+  custom.disabled=state.freeMode;
+}
+
+function summary(){
+  if(state.freeMode){
+    sumA.textContent=faucet.amount;
+    sumPayRow.hidden=true;
+    sumUnitRow.hidden=true;
+    sumCooldownRow.hidden=false;
+    sumCooldown.textContent=`Once every ${faucet.cooldownHours} hours`;
+    if(state.faucetTxHash){
+      faucetTxRow.hidden=false;
+      faucetTxHash.textContent=state.faucetTxHash;
+      faucetTxLink.href=`https://sepolia.etherscan.io/tx/${encodeURIComponent(state.faucetTxHash)}`;
+      faucetTxLink.title="View faucet transaction on Sepolia Etherscan";
+    }else{
+      faucetTxRow.hidden=true;
+      faucetTxHash.textContent="";
+      faucetTxLink.removeAttribute("href");
+    }
+    sumSavingLabel.textContent="Faucet";
+    sumS.textContent="No payment required";
+    summaryTitle.textContent="Free Sepolia faucet";
+    summaryChip.textContent="Free";
+    securityText.textContent=
+      "No wallet connection or payment is required for the free faucet.";
+  }else{
+    const unitPrice=state.p/state.a;
+
+    sumA.textContent=state.a;
+    sumP.textContent=price(state.p);
+    sumU.textContent=unitPrice.toFixed(3);
+    sumPayRow.hidden=false;
+    sumUnitRow.hidden=false;
+    sumCooldownRow.hidden=true;
+    faucetTxRow.hidden=true;
+    sumSavingLabel.textContent="Pricing";
+    sumS.textContent="Volume pricing applied";
+    summaryTitle.textContent="Sepolia ETH delivery";
+    summaryChip.textContent="Arbitrum USDC";
+    securityText.textContent=
+      "No wallet connection is required until the payment step.";
+  }
+
+  buttons();
+}
+
+function normalizedRecipient(){
+  const raw=recipient.value.trim();
+
+  if(!raw)return "";
+
+  return raw.startsWith("0x")
+    ? raw
+    : `0x${raw}`;
+}
+
+function valid(){
+  const raw=recipient.value.trim();
+  const normalized=normalizedRecipient();
+
+  const ok=
+    /^0x[a-fA-F0-9]{40}$/.test(normalized);
+
+  msg.className="message";
+
+  if(!raw){
+    msg.textContent=
+      "Enter the Sepolia wallet that should receive the testnet ETH.";
+    return false;
+  }
+
+  if(!ok){
+    msg.textContent=
+      "Enter a valid 20-byte EVM address.";
+    msg.classList.add("error");
+    return false;
+  }
+
+  msg.textContent=
+    "Valid Sepolia recipient address.";
+  msg.classList.add("valid");
+
+  return true;
+}
+
+function buttons(){
+  const freeUnavailable=
+    state.freeMode&&(
+      !faucet.enabled||
+      state.availableEthRaw<faucet.amount||
+      state.faucetClaimed
+    );
+
+  const faucetStatus=state.faucetStatus;
+
+  if(state.inventoryStatus==="loading"){
+    checkout.textContent="Checking inventory…";
+    checkout.disabled=true;
+  }else if(state.inventoryStatus==="unavailable"){
+    checkout.textContent="Inventory unavailable";
+    checkout.disabled=true;
+  }else if(freeUnavailable){
+    if(state.faucetClaimed){
+      checkout.textContent=
+        faucetStatus==="delivered"
+          ? "Sepolia ETH delivered ✓"
+          : faucetStatus==="failed"
+            ? "Faucet delivery failed"
+            : faucetStatus==="manual_review"
+              ? "Delivery needs review"
+              : faucetStatus==="payout_pending"
+                ? "Sending Sepolia ETH…"
+                : "Faucet request queued";
+    }else{
+      checkout.textContent="Faucet unavailable";
+    }
+    checkout.disabled=true;
+  }else if(!state.freeMode&&state.a>state.availableOrderEth){
+    checkout.textContent="Amount unavailable";
+    checkout.disabled=true;
+  }else if(state.faucetSubmitting){
+    checkout.textContent="Sending request…";
+    checkout.disabled=true;
+  }else if(state.creatingOrder){
+    checkout.textContent="Creating order…";
+    checkout.disabled=true;
+  }else if(state.freeMode){
+    checkout.textContent=`Send ${faucet.amount} Sepolia ETH`;
+    checkout.disabled=false;
+  }else{
+    checkout.textContent="Continue to payment";
+    checkout.disabled=false;
+  }
+
+  checkout.style.opacity=
+    (state.creatingOrder||state.faucetSubmitting)?".72":"";
+
+  checkout.style.cursor=
+    (state.creatingOrder||state.faucetSubmitting)?"wait":"pointer";
+
+  if(state.inventoryStatus==="loading"){
+    checkoutNote.textContent=
+      "Checking current Sepolia inventory…";
+  }else if(state.inventoryStatus==="unavailable"){
+    checkoutNote.textContent=
+      "Ordering is temporarily disabled because current Sepolia inventory could not be verified.";
+  }else if(state.freeMode&&state.faucetClaimed){
+    if(faucetStatus==="delivered"){
+      checkoutNote.style.color="var(--ok)";
+      checkoutNote.textContent=
+        `${faucet.amount} Sepolia ETH was delivered successfully${state.faucetTxHash?" — transaction shown above.":"."}`;
+    }else if(faucetStatus==="failed"){
+      checkoutNote.style.color="var(--danger)";
+      checkoutNote.textContent=
+        "The faucet payout failed. Please contact support if the problem persists.";
+    }else if(faucetStatus==="manual_review"){
+      checkoutNote.style.color="var(--danger)";
+      checkoutNote.textContent=
+        "The faucet payout requires manual review. Please contact support with the claim ID.";
+    }else if(faucetStatus==="payout_pending"){
+      checkoutNote.style.color="";
+      checkoutNote.textContent=
+        state.faucetTxHash
+          ? "The Sepolia transaction has been broadcast and is waiting for confirmation."
+          : "Your faucet payout is being prepared.";
+    }else{
+      checkoutNote.style.color="";
+      checkoutNote.textContent=
+        "Your free faucet request was accepted and is queued for delivery.";
+    }
+  }else if(state.freeMode&&state.availableEthRaw<faucet.amount){
+    checkoutNote.textContent=
+      "The free faucet is temporarily unavailable.";
+  }else if(!state.freeMode&&state.a>state.availableOrderEth){
+    checkoutNote.textContent=
+      `Only ${state.availableOrderEth} Sepolia ETH are currently available.`;
+  }else if(state.freeMode){
+    checkoutNote.textContent=
+      `Free faucet: ${faucet.amount} Sepolia ETH, limited by recipient and network to once every ${faucet.cooldownHours} hours.`;
+  }else{
+    checkoutNote.textContent=
+      "No wallet connection is required here. You will connect your payment wallet on the next page.";
+  }
+}
+
+function apiErrorMessage(payload,status){
+  if(payload&&typeof payload.detail==="string"){
+    return payload.detail;
+  }
+
+  if(
+    payload&&
+    payload.detail&&
+    typeof payload.detail.message==="string"
+  ){
+    return payload.detail.message;
+  }
+
+  if(Array.isArray(payload?.detail)){
+    return payload.detail
+      .map(item=>item.msg||"Invalid order data.")
+      .join(" ");
+  }
+
+  return `Order creation failed with HTTP ${status}.`;
+}
+
+
+
+function stopFaucetPolling(){
+  if(state.faucetPollTimer!==null){
+    clearInterval(state.faucetPollTimer);
+    state.faucetPollTimer=null;
+  }
+}
+
+function applyFaucetStatus(payload){
+  state.faucetStatus=payload.status||state.faucetStatus;
+  state.faucetTxHash=payload.payout_tx_hash||state.faucetTxHash;
+
+  summary();
+  render();
+  buttons();
+
+  if(
+    state.faucetStatus==="delivered"||
+    state.faucetStatus==="failed"||
+    state.faucetStatus==="manual_review"
+  ){
+    stopFaucetPolling();
+  }
+}
+
+async function loadFaucetStatus(){
+  if(
+    !state.faucetClaimId||
+    state.faucetStatusRequestInFlight
+  )return;
+
+  state.faucetStatusRequestInFlight=true;
+
+  try{
+    const response=await fetch(
+      `/api/faucet/${encodeURIComponent(state.faucetClaimId)}`,
+      {
+        headers:{Accept:"application/json"},
+        cache:"no-store"
+      }
+    );
+
+    let payload=null;
+    try{payload=await response.json();}catch{payload=null;}
+
+    if(!response.ok){
+      throw new Error(apiErrorMessage(payload,response.status));
+    }
+
+    applyFaucetStatus(payload);
+  }catch(error){
+    console.warn("Faucet status refresh failed.",error);
+    // Keep the accepted claim visible; a transient polling failure must not
+    // turn a successfully submitted request into an apparent failure.
+  }finally{
+    state.faucetStatusRequestInFlight=false;
+  }
+}
+
+function startFaucetPolling(){
+  stopFaucetPolling();
+  loadFaucetStatus();
+  state.faucetPollTimer=setInterval(loadFaucetStatus,2500);
+}
+
+async function claimFaucet(){
+  if(state.faucetSubmitting||state.faucetClaimed)return;
+
+  if(!valid()){
+    recipient.focus();
+    return;
+  }
+
+  state.faucetSubmitting=true;
+  checkoutNote.style.color="";
+  buttons();
+
+  try{
+    const response=await fetch("/api/faucet",{
+      method:"POST",
+      headers:{
+        "Accept":"application/json",
+        "Content-Type":"application/json"
+      },
+      body:JSON.stringify({
+        recipient_address:normalizedRecipient()
+      })
+    });
+
+    let payload=null;
+    try{payload=await response.json();}catch{payload=null;}
+
+    if(!response.ok){
+      throw new Error(
+        apiErrorMessage(payload,response.status)
+      );
+    }
+
+    state.faucetClaimed=true;
+    state.faucetClaimId=payload.id;
+    state.faucetStatus=payload.status||"queued";
+    state.faucetTxHash=payload.payout_tx_hash||null;
+
+    checkoutNote.style.color="";
+    checkoutNote.textContent=
+      `${payload.amount_eth} Sepolia ETH is queued for delivery to ${shortRecipient(payload.recipient_address)}.`;
+
+    startFaucetPolling();
+  }catch(error){
+    checkoutNote.textContent=
+      error?.message||
+      "The free faucet request could not be submitted.";
+    checkoutNote.style.color="var(--danger)";
+  }finally{
+    state.faucetSubmitting=false;
+    render();
+    buttons();
+  }
+}
+
+function shortRecipient(address){
+  if(!address||address.length<14)return address||"";
+  return `${address.slice(0,8)}…${address.slice(-6)}`;
+}
+
+async function createOrder(){
+  if(state.freeMode){
+    await claimFaucet();
+    return;
+  }
+
+  if(state.inventoryStatus==="loading"){
+    checkoutNote.textContent=
+      "Current inventory is still being checked. Please wait a moment.";
+    return;
+  }
+
+  if(state.inventoryStatus!=="ready"){
+    checkoutNote.textContent=
+      "Current inventory is unavailable. Please try again shortly.";
+    return;
+  }
+
+  if(state.a>state.availableOrderEth){
+    checkoutNote.textContent=
+      `Only ${state.availableOrderEth} Sepolia ETH are currently available.`;
+    checkoutNote.style.color="var(--danger)";
+    return;
+  }
+
+  if(!valid()){
+    recipient.focus();
+    return;
+  }
+
+  state.creatingOrder=true;
+  checkoutNote.style.color="";
+  buttons();
+
+  checkoutNote.textContent=
+    "Creating your order…";
+
+  try{
+    const response=await fetch("/api/orders",{
+      method:"POST",
+      headers:{
+        "Accept":"application/json",
+        "Content-Type":"application/json"
+      },
+      body:JSON.stringify({
+        sepolia_amount:state.a,
+        recipient_address:normalizedRecipient()
+      })
+    });
+
+    let payload=null;
+
+    try{
+      payload=await response.json();
+    }catch{
+      payload=null;
+    }
+
+    if(!response.ok){
+      throw new Error(
+        apiErrorMessage(
+          payload,
+          response.status
+        )
+      );
+    }
+
+    state.p=Number(payload.price_usdc);
+    summary();
+
+    const orderUrl=
+      new URL(
+        "/order.html",
+        window.location.origin
+      );
+
+    orderUrl.searchParams.set(
+      "id",
+      payload.id
+    );
+
+    window.location.assign(
+      orderUrl.toString()
+    );
+  }catch(error){
+    checkoutNote.textContent=
+      error?.message||
+      "The order could not be created.";
+
+    checkoutNote.style.color=
+      "var(--danger)";
+
+    state.creatingOrder=false;
+    buttons();
+  }
+}
+
+/* ---------- UI events ---------- */
+
+custom.oninput=()=>{
+  if(state.freeMode){
+    state.freeMode=false;
+    render();
+  }
+
+  const amount=
+    Math.round(
+      Number(custom.value)
+    );
+
+  if(
+    Number.isFinite(amount)&&
+    amount>=pricing.customMin&&
+    amount<=pricing.customMax&&
+    state.inventoryStatus==="ready"&&
+    amount<=state.availableOrderEth
+  ){
+    state.a=amount;
+    state.p=customPrice(amount);
+
+    render();
+    summary();
+  }
+};
+
+recipient.oninput=valid;
+checkout.onclick=createOrder;
+
+/* ---------- Startup ---------- */
+
+render();
+summary();
+buttons();
+
+(async()=>{
+  await Promise.all([
+    loadPricing(),
+    loadFaucetConfig()
+  ]);
+  await loadInventory({initial:true});
+})();
+
+setInterval(
+  ()=>loadInventory({initial:false}),
+  INVENTORY_REFRESH_MS
+);
+</script>
+</body>
+</html>
