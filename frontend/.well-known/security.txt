@@ -1,0 +1,4 @@
+Contact: mailto:getsepolia@protonmail.de
+Canonical: https://getsepolia.2bd.net/.well-known/security.txt
+Preferred-Languages: en
+Expires: 2027-08-11T00:00:00Z
