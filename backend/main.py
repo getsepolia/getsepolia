@@ -8,6 +8,9 @@ import os
 import sqlite3
 import uuid
 import socket
+import time
+import threading
+from collections import defaultdict, deque
 import urllib.error
 import urllib.request
 from contextlib import asynccontextmanager
@@ -16,7 +19,7 @@ from decimal import Decimal, ROUND_FLOOR
 from pathlib import Path
 from typing import Any
 
-from fastapi import FastAPI, HTTPException, Query, Request, status
+from fastapi import FastAPI, HTTPException, Request, status
 from fastapi.staticfiles import StaticFiles
 from dotenv import load_dotenv
 from pydantic import BaseModel, Field, field_validator
@@ -27,7 +30,6 @@ from .orders import (
     assign_payment_wallet,
     create_order,
     get_order,
-    list_orders,
     update_order_status,
 )
 from .pricing import PACKAGES
@@ -156,6 +158,59 @@ app = FastAPI(
     version="0.8.0",
     lifespan=lifespan,
 )
+
+
+# Lightweight per-process sliding-window rate limiter for public API endpoints.
+# Uvicorn currently runs a single worker. If multiple API workers are used
+# later, move this state to a shared store such as Redis.
+_rate_limit_buckets: dict[str, deque[float]] = defaultdict(deque)
+_rate_limit_lock = threading.Lock()
+_RATE_LIMIT_MAX_KEYS = 10000
+
+
+def _enforce_rate_limit(
+    request: Request,
+    *,
+    scope: str,
+    limit: int,
+    window_seconds: int,
+) -> None:
+    now = time.monotonic()
+    cutoff = now - window_seconds
+    client_ip = _client_ip(request)
+    key = f"{scope}:{client_ip}"
+
+    with _rate_limit_lock:
+        bucket = _rate_limit_buckets[key]
+
+        while bucket and bucket[0] <= cutoff:
+            bucket.popleft()
+
+        if len(bucket) >= limit:
+            retry_after = max(
+                1,
+                int(window_seconds - (now - bucket[0])),
+            )
+            raise HTTPException(
+                status_code=status.HTTP_429_TOO_MANY_REQUESTS,
+                detail={
+                    "code": "rate_limit_exceeded",
+                    "message": "Too many requests. Please try again later.",
+                },
+                headers={"Retry-After": str(retry_after)},
+            )
+
+        bucket.append(now)
+
+        # Keep the transient in-memory key set bounded.
+        if len(_rate_limit_buckets) > _RATE_LIMIT_MAX_KEYS:
+            stale_keys = [
+                bucket_key
+                for bucket_key, timestamps in _rate_limit_buckets.items()
+                if not timestamps or timestamps[-1] <= cutoff
+            ]
+            for bucket_key in stale_keys:
+                _rate_limit_buckets.pop(bucket_key, None)
 
 
 def _validate_user_address(value: str, field_name: str) -> str:
@@ -1391,6 +1446,12 @@ def api_faucet_claim(
     payload: FaucetClaimRequest,
     request: Request,
 ) -> FaucetClaimResponse:
+    _enforce_rate_limit(
+        request,
+        scope="faucet_claim",
+        limit=10,
+        window_seconds=600,
+    )
     return _create_faucet_claim(
         request,
         payload.recipient_address,
@@ -1401,7 +1462,16 @@ def api_faucet_claim(
     f"{settings.api_prefix}/faucet/{{claim_id}}",
     response_model=FaucetClaimResponse,
 )
-def api_get_faucet_claim(claim_id: str) -> FaucetClaimResponse:
+def api_get_faucet_claim(
+    claim_id: str,
+    request: Request,
+) -> FaucetClaimResponse:
+    _enforce_rate_limit(
+        request,
+        scope="faucet_status",
+        limit=120,
+        window_seconds=60,
+    )
     return _get_faucet_claim(claim_id)
 
 
@@ -1434,7 +1504,17 @@ def api_pricing() -> PricingResponse:
     response_model=OrderResponse,
     status_code=status.HTTP_201_CREATED,
 )
-def api_create_order(payload: OrderCreate) -> OrderResponse:
+def api_create_order(
+    payload: OrderCreate,
+    request: Request,
+) -> OrderResponse:
+    _enforce_rate_limit(
+        request,
+        scope="order_create",
+        limit=30,
+        window_seconds=600,
+    )
+
     if payload.sepolia_amount < int(settings.custom_min):
         raise HTTPException(
             status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,
@@ -1462,24 +1542,19 @@ def api_create_order(payload: OrderCreate) -> OrderResponse:
 
 
 @app.get(
-    f"{settings.api_prefix}/orders",
-    response_model=list[OrderResponse],
-)
-def api_list_orders(
-    payment_wallet: str | None = None,
-    limit: int = Query(default=20, ge=1, le=100),
-) -> list[OrderResponse]:
-    return list_orders(
-        payment_wallet=payment_wallet,
-        limit=limit,
-    )
-
-
-@app.get(
     f"{settings.api_prefix}/orders/{{order_id}}",
     response_model=OrderResponse,
 )
-def api_get_order(order_id: str) -> OrderResponse:
+def api_get_order(
+    order_id: str,
+    request: Request,
+) -> OrderResponse:
+    _enforce_rate_limit(
+        request,
+        scope="order_status",
+        limit=120,
+        window_seconds=60,
+    )
     return get_order(order_id)
 
 
@@ -1490,7 +1565,15 @@ def api_get_order(order_id: str) -> OrderResponse:
 def api_assign_payment_wallet(
     order_id: str,
     payload: PaymentWalletAssignment,
+    request: Request,
 ) -> OrderResponse:
+    _enforce_rate_limit(
+        request,
+        scope="payment_wallet",
+        limit=30,
+        window_seconds=600,
+    )
+
     if not settings.payment_enabled:
         raise HTTPException(
             status_code=status.HTTP_503_SERVICE_UNAVAILABLE,
@@ -1500,10 +1583,58 @@ def api_assign_payment_wallet(
             },
         )
 
-    return assign_payment_wallet(
+    current = get_order(order_id)
+
+    if current.status != "created":
+        raise HTTPException(
+            status_code=status.HTTP_409_CONFLICT,
+            detail={
+                "code": "payment_wallet_locked",
+                "message": (
+                    "The payment wallet can only be assigned while "
+                    "the order is in status 'created'."
+                ),
+            },
+        )
+
+    requested_wallet = payload.payment_wallet.lower()
+
+    if current.payment_wallet is not None:
+        if current.payment_wallet.lower() != requested_wallet:
+            raise HTTPException(
+                status_code=status.HTTP_409_CONFLICT,
+                detail={
+                    "code": "different_payment_wallet_attached",
+                    "message": (
+                        "A different payment wallet is already attached "
+                        "to this order."
+                    ),
+                },
+            )
+        return current
+
+    assigned = assign_payment_wallet(
         order_id,
-        payload.payment_wallet,
+        requested_wallet,
     )
+
+    # Fail closed if a concurrent request won the one-time assignment race.
+    if (
+        assigned.payment_wallet is None
+        or assigned.payment_wallet.lower() != requested_wallet
+    ):
+        raise HTTPException(
+            status_code=status.HTTP_409_CONFLICT,
+            detail={
+                "code": "payment_wallet_assignment_race",
+                "message": (
+                    "The payment wallet was assigned concurrently. "
+                    "Reload the order before continuing."
+                ),
+            },
+        )
+
+    return assigned
 
 
 @app.post(
@@ -1513,7 +1644,15 @@ def api_assign_payment_wallet(
 def api_submit_payment(
     order_id: str,
     payload: PaymentSubmission,
+    request: Request,
 ) -> OrderResponse:
+    _enforce_rate_limit(
+        request,
+        scope="payment_verify",
+        limit=20,
+        window_seconds=600,
+    )
+
     if not settings.payment_enabled:
         raise HTTPException(
             status_code=status.HTTP_503_SERVICE_UNAVAILABLE,

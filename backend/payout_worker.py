@@ -162,47 +162,6 @@ class RpcPool:
         raise RuntimeError("All Sepolia RPCs rejected the raw transaction: " + "; ".join(errors))
 
 
-def broadcast(self, raw_transaction: bytes) -> str:
-    errors: list[str] = []
-
-    expected_hash = Web3.to_hex(
-        Web3.keccak(raw_transaction)
-    )
-
-    for index, w3 in enumerate(self.providers, start=1):
-        try:
-            if not w3.is_connected():
-                raise RuntimeError("connection failed")
-
-            if w3.eth.chain_id != SEPOLIA_CHAIN_ID:
-                raise RuntimeError(
-                    f"wrong chain ID {w3.eth.chain_id}"
-                )
-
-            return Web3.to_hex(
-                w3.eth.send_raw_transaction(raw_transaction)
-            )
-
-        except Exception as exc:
-            message = str(exc).lower()
-
-            if (
-                "already known" in message
-                or "known transaction" in message
-                or "already imported" in message
-            ):
-                return expected_hash
-
-            errors.append(
-                f"RPC #{index}: {exc}"
-            )
-
-    raise RuntimeError(
-        "All Sepolia RPCs rejected the raw transaction: "
-        + "; ".join(errors)
-    )
-
-
 def fetch_unresolved_payout() -> sqlite3.Row | None:
     with transaction() as connection:
         return connection.execute(
