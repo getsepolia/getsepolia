@@ -257,7 +257,8 @@ let state={
   faucetStatus:null,
   faucetTxHash:null,
   faucetPollTimer:null,
-  faucetStatusRequestInFlight:false
+  faucetStatusRequestInFlight:false,
+  faucetErrorMessage:null
 };
 
 const $=id=>document.getElementById(id);
@@ -822,6 +823,9 @@ function buttons(){
     checkoutNote.style.color="var(--danger)";
     checkoutNote.textContent=
       "The free faucet is temporarily out of Sepolia ETH.";
+  }else if(state.freeMode&&state.faucetErrorMessage){
+    checkoutNote.style.color="var(--danger)";
+    checkoutNote.textContent=state.faucetErrorMessage;
   }else if(state.freeMode){
     checkoutNote.style.color="";
     checkoutNote.textContent=
@@ -845,26 +849,34 @@ function buttons(){
   }
 }
 
-function apiErrorMessage(payload,status){
-  if(payload&&typeof payload.detail==="string"){
+function apiErrorMessage(payload, status, fallback="Request failed"){
+  if(typeof payload?.detail === "string"){
     return payload.detail;
   }
 
-  if(
-    payload&&
-    payload.detail&&
-    typeof payload.detail.message==="string"
-  ){
+  if(typeof payload?.detail?.message === "string"){
     return payload.detail.message;
+  }
+
+  if(typeof payload?.message === "string"){
+    return payload.message;
+  }
+
+  if(typeof payload?.error === "string"){
+    return payload.error;
+  }
+
+  if(typeof payload?.error?.message === "string"){
+    return payload.error.message;
   }
 
   if(Array.isArray(payload?.detail)){
     return payload.detail
-      .map(item=>item.msg||"Invalid order data.")
+      .map(item => item?.msg || item?.message || "Invalid request.")
       .join(" ");
   }
 
-  return `Order creation failed with HTTP ${status}.`;
+  return `${fallback} (HTTP ${status}).`;
 }
 
 
@@ -936,6 +948,8 @@ function startFaucetPolling(){
 async function claimFaucet(){
   if(state.faucetSubmitting||state.faucetClaimed)return;
 
+  state.faucetErrorMessage=null;
+
   if(!valid()){
     recipient.focus();
     return;
@@ -962,7 +976,11 @@ async function claimFaucet(){
 
     if(!response.ok){
       throw new Error(
-        apiErrorMessage(payload,response.status)
+        apiErrorMessage(
+          payload,
+          response.status,
+          "Faucet request failed"
+        )
       );
     }
 
@@ -977,9 +995,19 @@ async function claimFaucet(){
 
     startFaucetPolling();
   }catch(error){
-    checkoutNote.textContent=
+    let message=
       error?.message||
       "The free faucet request could not be submitted.";
+
+    if(
+      message==="A free Sepolia faucet claim has already been accepted within the cooldown period."
+    ){
+      message=
+        `Faucet cooldown active. A free claim has already been accepted from this network within the last ${faucet.cooldownHours} hours. Please try again later.`;
+    }
+
+    state.faucetErrorMessage=message;
+    checkoutNote.textContent=message;
     checkoutNote.style.color="var(--danger)";
   }finally{
     state.faucetSubmitting=false;

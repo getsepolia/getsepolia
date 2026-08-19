@@ -1122,6 +1122,84 @@ def _verify_usdc_payment(
         16,
     )
 
+    # Anti-replay protection: a payment must have been mined during
+    # this order's lifetime.  A transaction from before the order was
+    # created must never be accepted as proof of payment, even if its
+    # sender, recipient, token contract and amount all match.
+    payment_block = _rpc_call_network(
+        rpc_urls,
+        ARBITRUM_CHAIN_ID,
+        "eth_getBlockByNumber",
+        [receipt["blockNumber"], False],
+    )
+
+    if payment_block is None or not payment_block.get("timestamp"):
+        raise HTTPException(
+            status_code=status.HTTP_503_SERVICE_UNAVAILABLE,
+            detail={
+                "code": "payment_block_unavailable",
+                "message": (
+                    "The payment block could not be verified. "
+                    "Please try again shortly."
+                ),
+            },
+        )
+
+    try:
+        payment_time = datetime.fromtimestamp(
+            int(payment_block["timestamp"], 16),
+            tz=timezone.utc,
+        )
+        order_created_at = order.created_at
+        order_expires_at = order.expires_at
+
+        if order_created_at.tzinfo is None:
+            order_created_at = order_created_at.replace(tzinfo=timezone.utc)
+        else:
+            order_created_at = order_created_at.astimezone(timezone.utc)
+
+        if order_expires_at.tzinfo is None:
+            order_expires_at = order_expires_at.replace(tzinfo=timezone.utc)
+        else:
+            order_expires_at = order_expires_at.astimezone(timezone.utc)
+    except (TypeError, ValueError, OverflowError) as exc:
+        raise HTTPException(
+            status_code=status.HTTP_503_SERVICE_UNAVAILABLE,
+            detail={
+                "code": "payment_block_invalid",
+                "message": "The payment block timestamp could not be verified.",
+            },
+        ) from exc
+
+    # EVM block timestamps have one-second resolution, while created_at
+    # contains microseconds.  Flooring the order timestamp avoids rejecting
+    # a legitimate payment mined in the same second as order creation.
+    order_created_floor = order_created_at.replace(microsecond=0)
+
+    if payment_time < order_created_floor:
+        raise HTTPException(
+            status_code=status.HTTP_409_CONFLICT,
+            detail={
+                "code": "payment_predates_order",
+                "message": (
+                    "This payment transaction predates the order and "
+                    "cannot be used as payment for it."
+                ),
+            },
+        )
+
+    if payment_time > order_expires_at:
+        raise HTTPException(
+            status_code=status.HTTP_409_CONFLICT,
+            detail={
+                "code": "payment_after_expiry",
+                "message": (
+                    "This payment transaction was mined after the order "
+                    "expired and cannot be used for it."
+                ),
+            },
+        )
+
     confirmations = (
         latest_block
         - transaction_block
