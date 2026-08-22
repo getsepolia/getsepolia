@@ -36,7 +36,7 @@ faucet funding, RPC endpoints or blockchain infrastructure.
 ## Installation
 
 ``` bash
-git clone https://github.com/<YOUR_GITHUB_USERNAME>/getsepolia.git
+git clone https://github.com/getsepolia/getsepolia.git
 cd getsepolia
 
 python -m venv .venv
